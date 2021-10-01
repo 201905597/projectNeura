@@ -1,18 +1,17 @@
 package neuraHealthUI.ui;
 
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
+import icai.dtc.isw.dao.CustomerDAO;
+
+
+import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class JVentana extends JFrame
 {
@@ -26,6 +25,16 @@ public class JVentana extends JFrame
         super("Mental Health App");
 
         this.setLayout(new BorderLayout());
+
+        //ventana de autenticacion
+        this.addWindowListener(new WindowAdapter() {
+
+            public void windowOpened(WindowEvent e) {
+                UsernameDialog usernameDialog = new UsernameDialog(this,true);
+
+            }
+        });
+
 
         //NORTE
         JPanel pnlNorte = new JPanel();

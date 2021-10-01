@@ -20,7 +20,7 @@ public class Client {
 	private String host;
 	private int port;
 	final static Logger logger = Logger.getLogger(Client.class);
-	public sendMessage(String context, Array)
+	//public sendMessage(String context, Array)
 
 	public static void main(String args[]) {
 		//Configure connections
