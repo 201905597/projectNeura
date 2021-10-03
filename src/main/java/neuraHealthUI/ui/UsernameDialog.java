@@ -1,4 +1,4 @@
-package main.java.neuraHealthUI.ui;
+package neuraHealthUI.ui;
 
 
 import icai.dtc.isw.dao.CustomerDAO;
@@ -22,7 +22,7 @@ import java.awt.event.WindowAdapter;
 
 public class UsernameDialog extends JDialog {
     private JVentana ventanaOwner;
-
+    JTextField txtId;
 
     public UsernameDialog(JVentana ventanaOwner, boolean modal) {
         this.setTitle("Log In / Acceder");
@@ -37,7 +37,7 @@ public class UsernameDialog extends JDialog {
         txtUser.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                    txtUser.requestFocus();
+                    txtId.requestFocus();
             }
         });
 
@@ -45,7 +45,7 @@ public class UsernameDialog extends JDialog {
         this.add(txtUser);
 
         JLabel lblId = new JLabel("Id: ");
-        JTextField txtId = new JTextField(12);
+        txtId = new JTextField(12);
         txtId.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -68,6 +68,7 @@ public class UsernameDialog extends JDialog {
                     int respuesta= customerDao.autenticar(id, nombre);
                     if (respuesta==1)
                     {
+                        ventanaOwner.setIdConectado(id); //añadido 2 oct
                         (UsernameDialog.this).dispose();
                     }
                     else
@@ -90,6 +91,8 @@ public class UsernameDialog extends JDialog {
                 ventanaOwner.dispose();
             }
         });
+        //-------------
+
         this.add(btnCancelar);
 
         this.pack();
@@ -99,7 +102,7 @@ public class UsernameDialog extends JDialog {
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setVisible(true);
     }
-    public void setOwner(JVentana gestionMesasOwner)
+    public void setOwner(JVentana ventanaOwner)
     {
         this.ventanaOwner = ventanaOwner;
     }

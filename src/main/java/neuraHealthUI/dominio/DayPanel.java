@@ -14,20 +14,33 @@ import java.awt.Color;
 public class DayPanel extends JPanel
 {
     JVentana ventanaOwner;
+    MonthPanel mes;
+    String diaDosDigitos;
     JButton btnDia;
-    //String emocionDia;
+    String emocion;
+    int coloreado;
 
     public DayPanel(int numero, MonthPanel mes, int anio, JVentana ventanaOwner)
     {
         this.ventanaOwner = ventanaOwner;
-        btnDia = new JButton(String.valueOf(numero)); //si solo tiene un digito, añadir un 0 delante
+        this.mes = mes;
+        this.setEmocion(" ");
+        coloreado = 0;
+
+        //si solo tiene un digito, añadir un 0 delante
+        if (numero<10)
+            diaDosDigitos = "0" + String.valueOf(numero);
+        else
+            diaDosDigitos = String.valueOf(numero);
+
+        btnDia = new JButton(diaDosDigitos);
+
         btnDia.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 AnimoDialog animoDlg = new AnimoDialog(ventanaOwner,true, DayPanel.this);
-                //System.out.println("funciona el boton");
             }
         });
         this.add(btnDia);
@@ -39,6 +52,40 @@ public class DayPanel extends JPanel
     {
         this.btnDia.setBackground(color);
         DayPanel.this.updateUI();
-        //emocionDia = ;
+        coloreado = 1;
     }
+
+    //añadido 2 oct
+    public String getFecha()
+    {
+        return diaDosDigitos + mes.getMesYAnio();
+    }
+
+    public void setEmocion(String emocion)
+    {
+        this.emocion = emocion;
+    }
+    public String getEmocion()
+    {
+        return emocion;
+    }
+
+    public String getDiaDosDigitos()
+    {
+        return diaDosDigitos;
+    }
+
+    public boolean isColoreado()
+    {
+        if (coloreado == 1)
+            return true;
+        else
+            return false;
+    }
+
+    public String getMesYAnio()
+    {
+        return mes.getMesYAnio();
+    }
+    //-----------
 }

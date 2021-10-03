@@ -18,19 +18,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnimoDialog extends JDialog
 {
     private DayPanel diaOwner;
     private ButtonGroup btnGroup;
     private ArrayList<JToggleButton> arrayBtns;
+    //color coding
+    private HashMap<String,Color> colorEmocion;
 
     public AnimoDialog(JVentana ventanaOwner, boolean modal, DayPanel diaOwner)
     {
         this.setModal(modal);
         this.setLayout(new BorderLayout());
         this.diaOwner = diaOwner;
-        arrayBtns = new ArrayList<JToggleButton>();
+        this.arrayBtns = new ArrayList<JToggleButton>();
+        this.colorEmocion = new HashMap<String, Color>();
+        colorEmocion.put("Feliz",new Color(255,153,0));
+        colorEmocion.put("Triste",new Color(51,153,255));
+        colorEmocion.put("Estresad@",new Color(255,51,51));
+        colorEmocion.put("Cansad@",new Color(102,20,153));
+        colorEmocion.put("Productiv@",new Color(0,204,0));
 
         //NORTE
         JLabel lblTitulo = new JLabel("¿Cómo te sientes hoy?");
@@ -44,24 +54,24 @@ public class AnimoDialog extends JDialog
 
         JToggleButton tglFeliz = new JToggleButton("Feliz");
         tglFeliz.setOpaque(true);
-        tglFeliz.setBackground(new Color(255,153,0));
+        tglFeliz.setBackground(colorEmocion.get(tglFeliz.getText()));
         tglFeliz.setSelected(true);
 
         JToggleButton tglTriste = new JToggleButton("Triste");
         tglTriste.setOpaque(true);
-        tglTriste.setBackground(new Color(51,153,255));
+        tglTriste.setBackground(colorEmocion.get(tglTriste.getText()));
 
         JToggleButton tglEstresado = new JToggleButton("Estresad@");
         tglEstresado.setOpaque(true);
-        tglEstresado.setBackground(new Color(255,51,51));
+        tglEstresado.setBackground(colorEmocion.get(tglEstresado.getText()));
 
         JToggleButton tglCansado = new JToggleButton("Cansad@");
         tglCansado.setOpaque(true);
-        tglCansado.setBackground(new Color(102,20,153));
+        tglCansado.setBackground(colorEmocion.get(tglCansado.getText()));
 
         JToggleButton tglProductivo = new JToggleButton("Productiv@");
         tglProductivo.setOpaque(true);
-        tglProductivo.setBackground(new Color(0,204,0));
+        tglProductivo.setBackground(colorEmocion.get(tglProductivo.getText()));
 
         btnGroup.add(tglFeliz);
         btnGroup.add(tglTriste);
@@ -100,6 +110,10 @@ public class AnimoDialog extends JDialog
                 {
                     Color colorAnimo = btnSelected.getBackground();
                     diaOwner.setBtnColor(colorAnimo);
+                    for (Map.Entry<String,Color> entry : colorEmocion.entrySet()) {
+                        if (colorAnimo == entry.getValue())
+                            diaOwner.setEmocion(entry.getKey());
+                    }
                 }
                 AnimoDialog.this.dispose();
             }
@@ -110,5 +124,10 @@ public class AnimoDialog extends JDialog
         this.setSize(300,200);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public Color getColorEmocion(String emocion)
+    {
+        return colorEmocion.get(emocion);
     }
 }

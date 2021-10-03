@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.util.HashMap;
+
 public class JVentana extends JFrame
 {
     public static void main(String[] args)
@@ -20,17 +22,21 @@ public class JVentana extends JFrame
         new JVentana();
     }
 
+    //añadido 2 oct
+    private String idConectado;
+    private HashMap<String,String> fechaYemocion;
+
     public JVentana()
     {
         super("Mental Health App");
-
+        fechaYemocion = new HashMap<String,String>();
         this.setLayout(new BorderLayout());
 
         //ventana de autenticacion
         this.addWindowListener(new WindowAdapter() {
 
             public void windowOpened(WindowEvent e) {
-                UsernameDialog usernameDialog = new UsernameDialog(this,true);
+                UsernameDialog usernameDialog = new UsernameDialog(JVentana.this,true);
 
             }
         });
@@ -61,7 +67,7 @@ public class JVentana extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                CalendarDialog calendarDlg = new CalendarDialog(JVentana.this, true, "Mi estado de ánimo");
+                CalendarDialog calendarDlg = new CalendarDialog(JVentana.this, true, "Mi estado de ánimo", idConectado);
             }
         });
         pnlCalendarAnimo.add(btnCalendarAnimo);
@@ -105,10 +111,44 @@ public class JVentana extends JFrame
 
         this.add(pnlCentro, BorderLayout.CENTER);
 
+        //añadido 2 oct
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e)
+            {
+                //guardar cosas en la bbdd, tabla usuarioanimos
+                CustomerDAO customerDao = new CustomerDAO();
+                customerDao.rellenarAnimo(JVentana.this.getIdConectado(),JVentana.this.getHmFechaEmocion());
+                System.out.println("ventana cerrada");
+            }
+        });
+        //-------------
+
         this.setSize(550,550);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
+
+    //añadido 2 oct
+    public void setIdConectado(String idConectado)
+    {
+        this.idConectado = idConectado;
+    }
+    public String getIdConectado()
+    {
+        return idConectado;
+    }
+
+    public void addFechaEmocion(String fecha, String emocion)
+    {
+        fechaYemocion.put(fecha,emocion);
+    }
+
+    public HashMap<String,String> getHmFechaEmocion()
+    {
+        return fechaYemocion;
+    }
+
+    //--------
 }

@@ -1,6 +1,8 @@
 package neuraHealthUI.ui;
 
+import icai.dtc.isw.dao.CustomerDAO;
 import neuraHealthUI.dominio.MonthPanel;
+import neuraHealthUI.dominio.DayPanel;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -16,9 +18,12 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class CalendarDialog extends JDialog
 {
@@ -29,6 +34,9 @@ public class CalendarDialog extends JDialog
     private JComboBox cmbNuevosMeses;
     private JButton btnAnadirMes;
     private JTextField txtAnio;
+    private String idConectado;
+    //private ArrayList<MonthPanel> mesesArray;
+    private HashSet<MonthPanel> mesesHSet;
     JPanel pnlCentro;
 
     private JButton btnVerMeses;
@@ -36,13 +44,20 @@ public class CalendarDialog extends JDialog
 
     String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-    public CalendarDialog(JVentana ventanaOwner, boolean modal, String title)
+    public CalendarDialog()
+    {
+
+    }
+    public CalendarDialog(JVentana ventanaOwner, boolean modal, String title, String idConectado)
     {
         this.setModal(modal);
         this.setTitle(title);
         this.strTitulo = title;
         this.ventanaOwner = ventanaOwner;
         this.hmMeses = new HashMap<String,MonthPanel>();
+        this.idConectado = idConectado;
+        //mesesArray = new ArrayList<MonthPanel>();
+        mesesHSet = new HashSet<MonthPanel>();
 
         //PANEL NORTE
         JPanel pnlNorte = new JPanel();
@@ -108,22 +123,69 @@ public class CalendarDialog extends JDialog
                 if (nombreMesNuevo != null && nombreMesNuevo != cmbDefault)
                 {
                     MonthPanel mesNuevo = new MonthPanel(nombreMesNuevo, anioNuevo, ventanaOwner);
-                    hmMeses.put(mesNuevo.getMesYAnio(), mesNuevo);
+                    CalendarDialog.this.addMonthPnl(mesNuevo);
+                    /*hmMeses.put(mesNuevo.getMesYAnio(), mesNuevo);
                     cmbMesesSeg.addItem(mesNuevo.getMesYAnio());
                     cmbMesesSeg.removeItem(cmbDefault);
                     pnlCentro.add(mesNuevo);
-                    pnlCentro.updateUI();
+                    pnlCentro.updateUI();*/
                 }
             }
         });
 
 
-
         this.add(pnlSur, BorderLayout.SOUTH);
+
+        //añadido 2 oct
+        this.addWindowListener(new WindowAdapter()
+        {
+
+
+            public void windowClosing(WindowEvent e)
+            {
+                for (MonthPanel mes : hmMeses.values())
+                if (mes != null)
+                {
+                    for (DayPanel dia : mes.getDayArray())
+                    {
+                        if (dia.isColoreado())
+                            ventanaOwner.addFechaEmocion(dia.getFecha(),dia.getEmocion());
+                    }
+                }
+            }
+        });
+
+        this.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e)
+            {
+                System.out.println("calendar dialog abierto");
+                ArrayList<String> mesesAdded = new ArrayList<String>();
+                CustomerDAO customerDao = new CustomerDAO();
+                //mesesArray = customerDao.recuperarAnimos(idConectado, ventanaOwner);
+                mesesHSet = customerDao.recuperarAnimos(idConectado, ventanaOwner);
+                for (MonthPanel mes : mesesHSet)
+                {
+                    if (!mesesAdded.contains(mes.getMesYAnio()))
+                    {
+                        mesesAdded.add(mes.getMesYAnio());
+                        CalendarDialog.this.addMonthPnl(mes);
+                    }
+                }
+            }
+        });
 
         this.pack();
         this.setSize(700,500);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void addMonthPnl(MonthPanel mesNuevo)
+    {
+        hmMeses.put(mesNuevo.getMesYAnio(), mesNuevo);
+        cmbMesesSeg.addItem(mesNuevo.getMesYAnio());
+        cmbMesesSeg.removeItem(cmbDefault);
+        pnlCentro.add(mesNuevo);
+        pnlCentro.updateUI();
     }
 }

@@ -92,4 +92,12 @@ public class MonthPanel extends JPanel
     {
         return nombreMes + String.valueOf(anio);
     }
+
+    //añadido 2 oct
+    public ArrayList<DayPanel> getDayArray()
+    {
+        return diasArrayList;
+    }
+
+
 }
