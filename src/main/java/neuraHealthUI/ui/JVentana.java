@@ -112,7 +112,7 @@ public class JVentana extends JFrame
         this.add(pnlCentro, BorderLayout.CENTER);
 
         //añadido 2 oct
-        this.addWindowListener(new WindowAdapter() {
+       /*this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e)
             {
                 //guardar cosas en la bbdd, tabla usuarioanimos
@@ -121,7 +121,13 @@ public class JVentana extends JFrame
                 System.out.println("ventana cerrada");
             }
         });
+        */
+
+
+
         //-------------
+
+
 
         this.setSize(550,550);
         this.setResizable(false);

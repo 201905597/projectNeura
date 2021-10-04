@@ -1,6 +1,7 @@
 package neuraHealthUI.ui;
 
 import neuraHealthUI.dominio.DayPanel;
+import icai.dtc.isw.dao.CustomerDAO;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -28,10 +29,16 @@ public class AnimoDialog extends JDialog
     private ArrayList<JToggleButton> arrayBtns;
     //color coding
     private HashMap<String,Color> colorEmocion;
+    String idConectado;
 
-    public AnimoDialog(JVentana ventanaOwner, boolean modal, DayPanel diaOwner)
+    private JVentana ventanaOwner;
+    private String fecha;
+
+
+    public AnimoDialog(String fecha, JVentana ventanaOwner, boolean modal, DayPanel diaOwner, String idConectado)
     {
         this.setModal(modal);
+        this.fecha=fecha;
         this.setLayout(new BorderLayout());
         this.diaOwner = diaOwner;
         this.arrayBtns = new ArrayList<JToggleButton>();
@@ -41,6 +48,9 @@ public class AnimoDialog extends JDialog
         colorEmocion.put("Estresad@",new Color(255,51,51));
         colorEmocion.put("Cansad@",new Color(102,20,153));
         colorEmocion.put("Productiv@",new Color(0,204,0));
+        this.idConectado=idConectado;
+
+        this.ventanaOwner=ventanaOwner;
 
         //NORTE
         JLabel lblTitulo = new JLabel("¿Cómo te sientes hoy?");
@@ -108,6 +118,10 @@ public class AnimoDialog extends JDialog
                 }
                 if (btnSelected != null)
                 {
+
+                    ventanaOwner.addFechaEmocion(fecha,btnSelected.getText());
+                    CustomerDAO customerDao = new CustomerDAO();
+                    customerDao.rellenarAnimo(idConectado,ventanaOwner.getHmFechaEmocion());
                     Color colorAnimo = btnSelected.getBackground();
                     diaOwner.setBtnColor(colorAnimo);
                     for (Map.Entry<String,Color> entry : colorEmocion.entrySet()) {
@@ -116,6 +130,8 @@ public class AnimoDialog extends JDialog
                     }
                 }
                 AnimoDialog.this.dispose();
+
+
             }
         });
         this.add(btnGuardar, BorderLayout.SOUTH);

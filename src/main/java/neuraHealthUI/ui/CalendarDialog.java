@@ -4,13 +4,7 @@ import icai.dtc.isw.dao.CustomerDAO;
 import neuraHealthUI.dominio.MonthPanel;
 import neuraHealthUI.dominio.DayPanel;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.BoxLayout;
+import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -85,7 +79,7 @@ public class CalendarDialog extends JDialog
                             {
                                 entry.getValue().setVisible(true);
                                 pnlCentro.updateUI();
-                            }
+                             }
                             else
                                 entry.getValue().setVisible(false);
                         }
@@ -118,18 +112,22 @@ public class CalendarDialog extends JDialog
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                int anioNuevo = Integer.parseInt(txtAnio.getText());
-                String nombreMesNuevo = String.valueOf(cmbNuevosMeses.getSelectedItem());
-                if (nombreMesNuevo != null && nombreMesNuevo != cmbDefault)
-                {
-                    MonthPanel mesNuevo = new MonthPanel(nombreMesNuevo, anioNuevo, ventanaOwner);
-                    CalendarDialog.this.addMonthPnl(mesNuevo);
-                    /*hmMeses.put(mesNuevo.getMesYAnio(), mesNuevo);
-                    cmbMesesSeg.addItem(mesNuevo.getMesYAnio());
-                    cmbMesesSeg.removeItem(cmbDefault);
-                    pnlCentro.add(mesNuevo);
-                    pnlCentro.updateUI();*/
+                int anioNuevo=2021;
+                try{
+                     anioNuevo = Integer.parseInt(txtAnio.getText());
+                    String nombreMesNuevo = String.valueOf(cmbNuevosMeses.getSelectedItem());
+                    if (nombreMesNuevo != null && nombreMesNuevo != cmbDefault)
+                    {
+                        MonthPanel mesNuevo = new MonthPanel(nombreMesNuevo, anioNuevo, ventanaOwner);
+                        CalendarDialog.this.addMonthPnl(mesNuevo);
+                    }
                 }
+                catch(NumberFormatException nfe )
+                {
+                    JOptionPane.showMessageDialog(CalendarDialog.this, "El año debe ser un numero");
+                }
+
+
             }
         });
 

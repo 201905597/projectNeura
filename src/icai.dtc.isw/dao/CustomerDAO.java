@@ -54,7 +54,7 @@ public class CustomerDAO {
 				}
 				else
 				{
-					encontrado=1;
+					encontrado=0;
 				}
 
 
@@ -77,11 +77,15 @@ public class CustomerDAO {
 
 	public static void rellenarAnimo(String idConectado, HashMap<String,String> fechaYemocion)
 	{
+
 		Connection con = ConnectionDAO.getInstance().getConnection();
+
 		for (Map.Entry<String, String> entry : fechaYemocion.entrySet())
 		{
+
 			String fecha = entry.getKey();
 			String emocion = entry.getValue();
+
 			try (PreparedStatement pst = con.prepareStatement("INSERT INTO usuarioanimos (id,fecha,emocion) VALUES (\'" + idConectado + "\',\'" + fecha + "\',\'" + emocion + "\')");
 				 ResultSet rs = pst.executeQuery()) {
 

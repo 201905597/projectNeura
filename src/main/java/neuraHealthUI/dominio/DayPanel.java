@@ -3,6 +3,7 @@ package neuraHealthUI.dominio;
 import neuraHealthUI.ui.AnimoDialog;
 import neuraHealthUI.ui.JVentana;
 
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
@@ -40,7 +41,7 @@ public class DayPanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                AnimoDialog animoDlg = new AnimoDialog(ventanaOwner,true, DayPanel.this);
+                AnimoDialog animoDlg = new AnimoDialog(DayPanel.this.getFecha(),ventanaOwner,true, DayPanel.this,ventanaOwner.getIdConectado());
             }
         });
         this.add(btnDia);
