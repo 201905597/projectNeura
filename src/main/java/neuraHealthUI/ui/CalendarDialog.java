@@ -3,6 +3,7 @@ package neuraHealthUI.ui;
 import icai.dtc.isw.dao.CustomerDAO;
 import neuraHealthUI.dominio.MonthPanel;
 import neuraHealthUI.dominio.DayPanel;
+import icai.dtc.isw.client.Client;
 
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
@@ -158,16 +160,22 @@ public class CalendarDialog extends JDialog
             {
                 System.out.println("calendar dialog abierto");
                 ArrayList<String> mesesAdded = new ArrayList<String>();
-                CustomerDAO customerDao = new CustomerDAO();
-                //mesesArray = customerDao.recuperarAnimos(idConectado, ventanaOwner);
-                mesesHSet = customerDao.recuperarAnimos(idConectado, ventanaOwner);
-                for (MonthPanel mes : mesesHSet)
+                Client client = new Client();
+                HashMap<String,Object> session=new HashMap<String, Object>();
+                session.put("id",idConectado);
+                session.put("ventana",ventanaOwner);
+                client.metodoClient("/recuperacionAnimo",session);
+                HashSet<MonthPanel> respuestaHSet = new HashSet<MonthPanel>();
+                respuestaHSet = (HashSet<MonthPanel>) session.get("RespuestaRecAnimos");
+
+                for (MonthPanel mes : respuestaHSet)
                 {
                     if (!mesesAdded.contains(mes.getMesYAnio()))
                     {
                         mesesAdded.add(mes.getMesYAnio());
                         CalendarDialog.this.addMonthPnl(mes);
                     }
+
                 }
             }
         });

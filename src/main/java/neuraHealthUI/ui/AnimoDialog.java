@@ -1,7 +1,7 @@
 package neuraHealthUI.ui;
 
 import neuraHealthUI.dominio.DayPanel;
-import icai.dtc.isw.dao.CustomerDAO;
+import icai.dtc.isw.client.Client;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -118,10 +118,18 @@ public class AnimoDialog extends JDialog
                 }
                 if (btnSelected != null)
                 {
-
+                    String emocion = btnSelected.getText();
+                    Client client = new Client();
+                    HashMap<String,Object> session = new HashMap<String,Object>();
+                    session.put("id",idConectado);
                     ventanaOwner.addFechaEmocion(fecha,btnSelected.getText());
-                    CustomerDAO customerDao = new CustomerDAO();
-                    customerDao.rellenarAnimo(idConectado,ventanaOwner.getHmFechaEmocion());
+                    session.put("hmFE",ventanaOwner.getHmFechaEmocion());
+                    client.metodoClient("/animoUsuario",session);
+                    //int respuesta = (Integer) session.get("RespuestaAnimo");
+
+
+
+
                     Color colorAnimo = btnSelected.getBackground();
                     diaOwner.setBtnColor(colorAnimo);
                     for (Map.Entry<String,Color> entry : colorEmocion.entrySet()) {

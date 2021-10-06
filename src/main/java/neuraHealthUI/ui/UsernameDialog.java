@@ -65,27 +65,27 @@ public class UsernameDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    String nombre = txtUser.getText();
-                    String id = txtId.getText();
-                    //String host = PropertiesISW.getInstance().getProperty("host");
-                    //int port = Integer.parseInt(PropertiesISW.getInstance().getProperty("port"));
-                    Client client=new Client();
-                    HashMap<String,Object> session=new HashMap<String, Object>();
-                    session.put("id",id);
-                    session.put("nombre",nombre);
-                    client.metodoClient("/peticionAcceso",session);
-                    int respuesta = (Integer) session.get("RespuestaAcceso");
+                String nombre = txtUser.getText();
+                String id = txtId.getText();
+                //String host = PropertiesISW.getInstance().getProperty("host");
+                //int port = Integer.parseInt(PropertiesISW.getInstance().getProperty("port"));
+                Client client=new Client();
+                HashMap<String,Object> session=new HashMap<String, Object>();
+                session.put("id",id);
+                session.put("nombre",nombre);
+                client.metodoClient("/peticionAcceso",session);
+                int respuesta = (Integer) session.get("RespuestaAcceso");
 
 
                 if (respuesta==1)
-                    {
-                        ventanaOwner.setIdConectado(id); //añadido 2 oct
-                        (UsernameDialog.this).dispose();
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(UsernameDialog.this, "No se encuentra el nombre o el id en la base de datos");
-                    }
+                {
+                    ventanaOwner.setIdConectado(id); //añadido 2 oct
+                    (UsernameDialog.this).dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(UsernameDialog.this, "No se encuentra el nombre o el id en la base de datos");
+                }
 
 
             }

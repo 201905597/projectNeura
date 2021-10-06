@@ -199,7 +199,6 @@ public class CustomerDAO {
 				String mesyAnio = fecha.substring(2);
 				mesAnioSet.add(mesyAnio);
 			}
-
 			for (String mesAnio : mesAnioSet)
 			{
 				String nombreMes = mesAnio.substring(2,mesAnio.length()-4);
@@ -207,7 +206,6 @@ public class CustomerDAO {
 				MonthPanel mesNuevo = new MonthPanel(nombreMes,Integer.parseInt(anio),ventana);
 				mesesHSet.add(mesNuevo);
 			}
-
 			for (MonthPanel mes : mesesHSet)
 			{
 				String mesYanio = mes.getMesYAnio();
