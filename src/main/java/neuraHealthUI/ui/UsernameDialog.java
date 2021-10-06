@@ -1,6 +1,7 @@
 package neuraHealthUI.ui;
 
-
+import icai.dtc.isw.client.Client;
+import icai.dtc.isw.configuration.PropertiesISW;
 import icai.dtc.isw.dao.CustomerDAO;
 
 import javax.swing.JDialog;
@@ -12,6 +13,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.GridLayout;
 import java.awt.Color;
+
+import java.util.HashMap;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,9 +67,17 @@ public class UsernameDialog extends JDialog {
 
                     String nombre = txtUser.getText();
                     String id = txtId.getText();
-                    CustomerDAO customerDao = new CustomerDAO();
-                    int respuesta= customerDao.autenticar(id, nombre);
-                    if (respuesta==1)
+                    //String host = PropertiesISW.getInstance().getProperty("host");
+                    //int port = Integer.parseInt(PropertiesISW.getInstance().getProperty("port"));
+                    Client client=new Client();
+                    HashMap<String,Object> session=new HashMap<String, Object>();
+                    session.put("id",id);
+                    session.put("nombre",nombre);
+                    client.metodoClient("/peticionAcceso",session);
+                    int respuesta = (Integer) session.get("RespuestaAcceso");
+
+
+                if (respuesta==1)
                     {
                         ventanaOwner.setIdConectado(id); //añadido 2 oct
                         (UsernameDialog.this).dispose();
@@ -75,6 +86,8 @@ public class UsernameDialog extends JDialog {
                     {
                         JOptionPane.showMessageDialog(UsernameDialog.this, "No se encuentra el nombre o el id en la base de datos");
                     }
+
+
             }
         });
 

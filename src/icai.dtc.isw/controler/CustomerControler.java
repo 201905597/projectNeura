@@ -9,5 +9,10 @@ public class CustomerControler {
 
 	public void getCustomer(ArrayList<Customer> lista) {
 		CustomerDAO.getClientes(lista);
-	}	
+	}
+	public int autenticarAlUsuario(String id, String nombre)
+	{
+		return CustomerDAO.autenticar(id,nombre);
+	}
 }
+

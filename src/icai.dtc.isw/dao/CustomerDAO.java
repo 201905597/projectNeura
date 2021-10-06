@@ -23,12 +23,47 @@ public class CustomerDAO {
 
 	public static void getClientes(ArrayList<Customer> lista) {
 		Connection con=ConnectionDAO.getInstance().getConnection();
-		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios");
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios where id= 1");
 			 ResultSet rs = pst.executeQuery()) {
 
 			while (rs.next()) {
-				lista.add(new Customer(rs.getString(1),rs.getString(2)));
+				lista.add(new Customer(rs.getString(2),rs.getString(1)));
 			}
+
+		} catch (SQLException ex) {
+
+			System.out.println(ex.getMessage());
+		}
+
+	}
+	public void getUsuarioAutenticado(ArrayList<Customer> lista, String id, String nombre) {
+		Connection con=ConnectionDAO.getInstance().getConnection();
+		int encontrado=0;
+		int respuesta=0;
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios where id= \'" + id + "\' ");
+			 ResultSet rs = pst.executeQuery()) {
+			System.out.println("hola que tal");
+			while (rs.next()) {
+				lista.add(new Customer(rs.getString(2),rs.getString(1)));
+				if(nombre.equals(rs.getString(1)) && (id.equals(rs.getString(2))))
+				{
+					System.out.println("Encontrado bien nombre e id en la bbdd");
+					encontrado=1;
+					respuesta=1;
+				}
+				else
+				{
+					encontrado=0;
+				}
+
+
+			}
+			if(encontrado==0)
+			{
+				System.out.println("NO encontrado en la bbdd");
+			}
+
+
 
 		} catch (SQLException ex) {
 
@@ -40,6 +75,8 @@ public class CustomerDAO {
 	{
 		int encontrado =0 ;
 		int respuesta=0;
+
+
 		Connection con=ConnectionDAO.getInstance().getConnection();
 		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM usuarios");
 			 ResultSet rs = pst.executeQuery()) {
@@ -52,10 +89,7 @@ public class CustomerDAO {
 					encontrado=1;
 					respuesta=1;
 				}
-				else
-				{
-					encontrado=0;
-				}
+
 
 
 			}

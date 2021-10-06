@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 
@@ -22,45 +23,46 @@ public class Client {
 	final static Logger logger = Logger.getLogger(Client.class);
 	//public sendMessage(String context, Array)
 
-	public static void main(String args[]) {
+	public void metodoClient(String tipoMensaje,HashMap<String, Object> session) {
 		//Configure connections
+
 		String host = PropertiesISW.getInstance().getProperty("host");
 		int port = Integer.parseInt(PropertiesISW.getInstance().getProperty("port"));
-		Logger.getRootLogger().info("Host: "+host+" port"+port);
+		Logger.getRootLogger().info("Host: " + host + " port" + port);
 		//Create a cliente class
-		Client cliente=new Client(host, port);
-		
-		HashMap<String,Object> session=new HashMap<String, Object>();
+		Client cliente = new Client(host, port);
+
+		//HashMap<String, Object> session = new HashMap<String, Object>();
 		//session.put("/getCustomer","");
-		
-		Message mensajeEnvio=new Message();
-		Message mensajeVuelta=new Message();
-		mensajeEnvio.setContext("/getCustomer");
+
+		Message mensajeEnvio = new Message();
+		Message mensajeVuelta = new Message();
+		mensajeEnvio.setContext(tipoMensaje);
+		System.out.println("imprimir en cliente: " + mensajeEnvio.getContext());
 		mensajeEnvio.setSession(session);
-		cliente.sent(mensajeEnvio,mensajeVuelta);
-		
-		System.out.println("estoy aqui");
+		cliente.sent(mensajeEnvio, mensajeVuelta);
+
 		switch (mensajeVuelta.getContext()) {
-			case "/getCustomerResponse":
-				ArrayList<Customer> customerList=(ArrayList<Customer>)(mensajeVuelta.getSession().get("Claudia"));
-				 for (Customer customer : customerList) {			
-						System.out.println("He leído el id: "+customer.getId()+" con nombre: "+customer.getName());
-					} 
+			case "/peticionAccesoResponse":
+				int respuesta = (Integer) mensajeVuelta.getSession().get("RespuestaAcceso");
+				session.put("RespuestaAcceso", respuesta);
 				break;
-				
+
 			default:
 				Logger.getRootLogger().info("Option not found");
 				System.out.println("\nError a la vuelta");
 				break;
-		
+
+
+			//System.out.println("3.- En Main.- El valor devuelto es: "+((String)mensajeVuelta.getSession().get("Nombre")));
 		}
-		//System.out.println("3.- En Main.- El valor devuelto es: "+((String)mensajeVuelta.getSession().get("Nombre")));
 	}
 	
 	public Client(String host, int port) {
 		this.host=host;
 		this.port=port;
 	}
+	public Client(){}
 	
 
 	public void sent(Message messageOut, Message messageIn) {
@@ -77,7 +79,7 @@ public class Client {
 				in = echoSocket.getInputStream();
 				out = echoSocket.getOutputStream();
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
-				
+
 				//Create the object to send
 				objectOutputStream.writeObject(messageOut);
 				
@@ -86,6 +88,7 @@ public class Client {
 		        Message msg=(Message)objectInputStream.readObject();
 		        messageIn.setContext(msg.getContext());
 		        messageIn.setSession(msg.getSession());
+
 		        /*System.out.println("\n1.- El valor devuelto es: "+messageIn.getContext());
 		        String cadena=(String) messageIn.getSession().get("Nombre");
 		        System.out.println("\n2.- La cadena devuelta es: "+cadena);*/
