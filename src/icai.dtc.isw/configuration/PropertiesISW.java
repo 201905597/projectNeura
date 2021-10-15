@@ -13,12 +13,13 @@ public class PropertiesISW extends Properties{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static PropertiesISW prop;
-	private static final String path="properties.xml";
+	//private static final String path="properties/properties.xml";
 	
 	
 	private PropertiesISW() {
 		try {
-			this.loadFromXML(new FileInputStream(path));
+			//this.loadFromXML(new FileInputStream(path));
+			this.loadFromXML(getClass().getClassLoader().getResourceAsStream("properties.xml"));
 		} catch (InvalidPropertiesFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
