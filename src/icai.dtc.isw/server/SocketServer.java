@@ -28,7 +28,6 @@ public class SocketServer extends Thread {
 		start();
 	}
 
-	////////EL CORRECTOOOOOOOOOOOO
 	public void run() {
 		InputStream in = null;
 		OutputStream out = null;
