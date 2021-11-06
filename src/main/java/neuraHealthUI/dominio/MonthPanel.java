@@ -25,7 +25,7 @@ public class MonthPanel extends JPanel
     int diasMeses[] = {31,28,31,30,31,30,31,31,30,31,30,31};
     HashMap<String,Integer> mesDias = new HashMap<String,Integer>();
 
-    public MonthPanel(String nombreMes, int anio, JVentana ventanaOwner)
+    public MonthPanel(String nombreMes, int anio, JVentana ventanaOwner) //add attribute tipoMes
     {
         this.setLayout(new BorderLayout());
         this.diasArrayList = new ArrayList<DayPanel>();

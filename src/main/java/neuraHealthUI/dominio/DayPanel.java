@@ -18,10 +18,10 @@ public class DayPanel extends JPanel
     MonthPanel mes;
     String diaDosDigitos;
     JButton btnDia;
-    String emocion;
+    String emocion; //cambiar a generico
     int coloreado;
 
-    public DayPanel(int numero, MonthPanel mes, int anio, JVentana ventanaOwner)
+    public DayPanel(int numero, MonthPanel mes, int anio, JVentana ventanaOwner) //add attribute tipoDia
     {
         this.ventanaOwner = ventanaOwner;
         this.mes = mes;
