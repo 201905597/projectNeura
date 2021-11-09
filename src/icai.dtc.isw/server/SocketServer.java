@@ -16,6 +16,7 @@ import neuraHealthUI.ui.JVentana;
 import icai.dtc.isw.controler.CustomerControler;
 import icai.dtc.isw.domain.Customer;
 import icai.dtc.isw.message.Message;
+import main.java.neuraHealthUI.dominio.Psicologo;
 
 public class SocketServer extends Thread {
 	public static final int PORT_NUMBER = 8081;
@@ -42,13 +43,22 @@ public class SocketServer extends Thread {
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
 			Message mensajeOut=new Message();
 			switch (mensajeIn.getContext()) {
-				case ("/peticionAcceso"):
+				case ("/peticionAccesoUsuario"):
 					CustomerControler customerControler=new CustomerControler();
 					int var=customerControler.autenticarAlUsuario((String)mensajeIn.getSession().get("id"),(String)mensajeIn.getSession().get("nombre"));
 					mensajeOut.setContext("/peticionAccesoResponse");
 					HashMap<String,Object> session=new HashMap<String, Object>();
-					session.put("RespuestaAcceso",var);
+					session.put("RespuestaAcceso1",var);
 					mensajeOut.setSession(session);
+					objectOutputStream.writeObject(mensajeOut);
+					break;
+				case ("/peticionAccesoPsicologo"):
+					CustomerControler customerControler2=new CustomerControler();
+					int var2=customerControler2.autenticarAlPsicologo((String)mensajeIn.getSession().get("id"),(String)mensajeIn.getSession().get("centro"));
+					mensajeOut.setContext("/peticionAccesoResponse2");
+					HashMap<String,Object> session2=new HashMap<String, Object>();
+					session2.put("RespuestaAcceso2",var2);
+					mensajeOut.setSession(session2);
 					objectOutputStream.writeObject(mensajeOut);
 					break;
 				case ("/animoUsuario"):
@@ -61,15 +71,33 @@ public class SocketServer extends Thread {
 					objectOutputStream.writeObject(mensajeOut);
 					break;
 				case ("/recuperacionAnimo"):
-					CustomerControler customerControler2=new CustomerControler();
-					HashSet<MonthPanel> var2=customerControler2.recuperacionDeAnimos((String)mensajeIn.getSession().get("id"),(JVentana)mensajeIn.getSession().get("ventana"));
+					CustomerControler customerControler5=new CustomerControler();
+					HashSet<MonthPanel> var5=customerControler5.recuperacionDeAnimos((String)mensajeIn.getSession().get("id"),(JVentana)mensajeIn.getSession().get("ventana"));
 					mensajeOut.setContext("/recuperacionAnimoResponse");
-					HashMap<String,Object> session2=new HashMap<String, Object>();
-					session2.put("RespuestaRecAnimos",var2);
-					mensajeOut.setSession(session2);
+					HashMap<String,Object> session5=new HashMap<String, Object>();
+					session5.put("RespuestaRecAnimos",var5);
+					mensajeOut.setSession(session5);
 					objectOutputStream.writeObject(mensajeOut);
 					break;
-
+				case ("/habitoUsuario"):
+					CustomerControler customerControler3=new CustomerControler();
+					customerControler3.insertarHabitos((String)mensajeIn.getSession().get("id"),(HashMap<String, String>) mensajeIn.getSession().get("hmFH"));
+					mensajeOut.setContext("/habitoUsuarioResponse");
+					HashMap<String,Object> session3=new HashMap<String, Object>();
+					mensajeOut.setSession(session3);
+					objectOutputStream.writeObject(mensajeOut);
+					break;
+				case ("/recuperacionHabito"):
+					System.out.println("aqui recupero de la tabla usuariohabitos");
+					CustomerControler customerControler4=new CustomerControler();
+					//HashSet<MonthPanel> var4=customerControler4.recuperacionDeHabitos((String)mensajeIn.getSession().get("id"),(JVentana)mensajeIn.getSession().get("ventana"));
+					HashSet<MonthPanel> var4=customerControler4.recuperacionDeHabitos((String)mensajeIn.getSession().get("id"),(String)mensajeIn.getSession().get("habito"),(JVentana)mensajeIn.getSession().get("ventana"));
+					mensajeOut.setContext("/recuperacionHabitoResponse");
+					HashMap<String,Object> session4=new HashMap<String, Object>();
+					session4.put("RespuestaRecHabitos",var4);
+					mensajeOut.setSession(session4);
+					objectOutputStream.writeObject(mensajeOut);
+					break;
 				default:
 					System.out.println("\nParámetro no encontrado");
 					break;

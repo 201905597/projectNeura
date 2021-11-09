@@ -16,6 +16,7 @@ import icai.dtc.isw.domain.Customer;
 import neuraHealthUI.ui.JVentana;
 import neuraHealthUI.dominio.MonthPanel;
 import neuraHealthUI.dominio.DayPanel;
+import main.java.neuraHealthUI.dominio.Psicologo;
 
 public class CustomerDAO {
 
@@ -71,7 +72,7 @@ public class CustomerDAO {
 		}
 
 	}
-	public static int autenticar(String id,String nombre)
+	public static int autenticarAlUsuario(String id,String nombre)
 	{
 		int encontrado =0 ;
 		int respuesta=0;
@@ -107,7 +108,49 @@ public class CustomerDAO {
 		return respuesta;
 	}
 
-	//Añadido el 2 oct-------------------------------------
+	public static int autenticarAlPsicologo(String id, String centro)
+	{
+
+		int encontrado =0 ;
+		int respuesta=0;
+		//String centro=psicologo.getCentro();
+
+
+		Connection con=ConnectionDAO.getInstance().getConnection();
+
+
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM psicologos");
+			 ResultSet rs = pst.executeQuery()) {
+
+			while (rs.next()) {
+
+				if (id.equals(rs.getString(1)) && (centro.equals(rs.getString(3)))) {
+					System.out.println("Encontrado bien id y centro del psicologo en la bbdd");
+					encontrado = 1;
+					respuesta = 1;
+				}
+				else
+				{
+					System.out.println("no encontrado");
+				}
+
+			}
+
+		}
+		catch (SQLException ex) {
+
+			System.out.println(ex.getMessage());
+		}
+
+
+		if(encontrado==0)
+		{
+			System.out.println("NO encontrado psicologo en la bbdd");
+		}
+
+
+		return respuesta;
+	}
 
 	public static void rellenarAnimo(String idConectado, HashMap<String,String> fechaYemocion)
 	{
@@ -172,7 +215,7 @@ public class CustomerDAO {
 			{
 				String nombreMes = mesAnio.substring(0,mesAnio.length()-4);
 				String anio = mesAnio.substring(mesAnio.length()-4);
-				mesesHSet.add(new MonthPanel(nombreMes,Integer.parseInt(anio),ventana));
+				mesesHSet.add(new MonthPanel(nombreMes,Integer.parseInt(anio),ventana, "Animo"));
 			}
 
 			for (MonthPanel mes : mesesHSet)
@@ -185,71 +228,12 @@ public class CustomerDAO {
 						String emocion = entry.getValue();
 						if (entry.getKey().substring(2).equals(day.getMesYAnio()) && entry.getKey().substring(0,2).equals(diaDosDigitos))
 						{
-							day.setEmocion(emocion);
+							day.setAsociacion(emocion);
 							day.setBtnColor(colorEmocion.get(emocion));
 						}
 					}
 				}
 			}
-
-			/*HashSet<String> mesAnioSet = new HashSet<String>();
-			for (Map.Entry<String, String> entry : hmFechaEmocion.entrySet())
-			{
-				String fecha = entry.getKey();
-				String mesyAnio = fecha.substring(2);
-				mesAnioSet.add(mesyAnio);
-			}
-			for (String mesAnio : mesAnioSet)
-			{
-				String nombreMes = mesAnio.substring(2,mesAnio.length()-4);
-				String anio = mesAnio.substring(mesAnio.length()-4);
-				MonthPanel mesNuevo = new MonthPanel(nombreMes,Integer.parseInt(anio),ventana);
-				mesesHSet.add(mesNuevo);
-			}
-			for (MonthPanel mes : mesesHSet)
-			{
-				String mesYanio = mes.getMesYAnio();
-				for (Map.Entry<String, String> entry : hmFechaEmocion.entrySet())
-				{
-					String fecha = entry.getKey();
-					String mesAnioHm = fecha.substring(2);
-					if (mesAnioHm.equals(mesYanio))
-					{
-						String emocion = entry.getValue();
-						String dia = fecha.substring(0,2);
-						for (DayPanel day : mes.getDayArray())
-						{
-							if (dia.equals(day.getDiaDosDigitos()))
-							{
-								day.setEmocion(emocion);
-								day.setBtnColor(colorEmocion.get(emocion));
-							}
-						}
-					}
-				}
-			}*/
-
-			/*for (Map.Entry<String, String> entry : hmFechaEmocion.entrySet())
-			{
-				String fecha = entry.getKey();
-				String emocion = entry.getValue();
-				String dia = fecha.substring(0,2);
-				for (MonthPanel mes : mesesArray)
-				{
-					if (mes.getMesYAnio().equals(fecha.substring(2)))
-					{
-						for (DayPanel day : mes.getDayArray())
-						{
-							if (dia.equals(day.getDiaDosDigitos()))
-							{
-								day.setEmocion(emocion);
-								day.setBtnColor(colorEmocion.get(emocion));
-							}
-						}
-					}
-				}
-			}*/
-			//ult linea del try
 		}
 		catch(SQLException ex)
 		{
@@ -259,6 +243,97 @@ public class CustomerDAO {
 		return mesesHSet;
 	}
 
+	public static void rellenarHabitos(String idConectado, HashMap<String,String> fechaYhabito)
+	{
+		Connection con = ConnectionDAO.getInstance().getConnection();
+
+		for (Map.Entry<String, String> entry : fechaYhabito.entrySet())
+		{
+
+			String fecha = entry.getKey();
+			String habitoEstado = entry.getValue();
+			String habito = habitoEstado.substring(0,habitoEstado.indexOf("#"));
+			String estado = habitoEstado.substring(habitoEstado.indexOf("#")+1);
+
+			try (PreparedStatement pst = con.prepareStatement("INSERT INTO usuariohabitos (id,fecha,habito,estado) VALUES (\'" + idConectado + "\',\'" + fecha + "\',\'" + habito + "\',\'" + estado + "\')");
+				 ResultSet rs = pst.executeQuery()) {
+
+
+
+			} catch (SQLException ex) {
+
+				System.out.println(ex.getMessage());
+			}
+		}
+	}
+
+	public static HashSet<MonthPanel> recuperarHabitos(String idConectado,String habitoRecuperado, JVentana ventana)
+	{
+		HashSet<MonthPanel> mesesHSet = new HashSet<MonthPanel>();
+		Connection con = ConnectionDAO.getInstance().getConnection();
+		HashMap<String, Color> habitoColor = new HashMap<String, Color>();
+		habitoColor.put("Hecho",new Color(68,175,118));
+		habitoColor.put("No hecho",new Color(253,65,65));
+		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM usuariohabitos");
+			 ResultSet rs = pst.executeQuery()) {
+			HashMap<String, String> hmFechaHabito = new HashMap<String, String>();
+			while (rs.next()) {
+
+				if (idConectado.equals(rs.getString(1)) && habitoRecuperado.equals(rs.getString(3))) {
+					System.out.println("Encuentro el usuario que ha entrado");
+					String fecha = rs.getString(2);
+					String habito = rs.getString(3);
+					String estado = rs.getString(4);
+					hmFechaHabito.put(fecha, habito+"#"+estado);
+				} else {
+					System.out.println("este usuario no tiene habitos guardados");
+				}
+			}
+
+			mesesHSet = new HashSet<MonthPanel>();
+			HashSet<String> mesAnioSet = new HashSet<String>();
+			String habito = " ";
+			for (Map.Entry<String, String> entry : hmFechaHabito.entrySet())
+			{
+				String fecha = entry.getKey();
+				String mesYanio = fecha.substring(2);
+				mesAnioSet.add(mesYanio);
+				String habitoEstado = entry.getValue();
+				habito = habitoEstado.substring(0,habitoEstado.indexOf("#"));
+			}
+
+			for (String mesAnio : mesAnioSet)
+			{
+				String nombreMes = mesAnio.substring(0,mesAnio.length()-4);
+				String anio = mesAnio.substring(mesAnio.length()-4);
+				mesesHSet.add(new MonthPanel(nombreMes,Integer.parseInt(anio),ventana, habito));
+			}
+
+			for (MonthPanel mes : mesesHSet)
+			{
+				for (DayPanel day : mes.getDayArray())
+				{
+					String diaDosDigitos = day.getDiaDosDigitos();
+					for (Map.Entry<String, String> entry : hmFechaHabito.entrySet())
+					{
+						String habitoEstado = entry.getValue();
+						String estado = habitoEstado.substring(habitoEstado.indexOf("#")+1);
+						if (entry.getKey().substring(2).equals(day.getMesYAnio()) && entry.getKey().substring(0,2).equals(diaDosDigitos))
+						{
+							day.setAsociacion(habito);
+							day.setBtnColor(habitoColor.get(estado));
+						}
+					}
+				}
+			}
+		}
+		catch(SQLException ex)
+		{
+			System.out.println(ex.getMessage());
+		}
+
+		return mesesHSet;
+	}
 
 	//-------------------------------------
 

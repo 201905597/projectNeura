@@ -1,6 +1,6 @@
 package neuraHealthUI.dominio;
 
-import neuraHealthUI.ui.AnimoDialog;
+import neuraHealthUI.ui.ColoresDialog;
 import neuraHealthUI.ui.JVentana;
 
 
@@ -16,16 +16,18 @@ public class DayPanel extends JPanel
 {
     JVentana ventanaOwner;
     MonthPanel mes;
+    String tipoDia;
     String diaDosDigitos;
     JButton btnDia;
-    String emocion; //cambiar a generico
+    String asociacion;
     int coloreado;
 
-    public DayPanel(int numero, MonthPanel mes, int anio, JVentana ventanaOwner) //add attribute tipoDia
+    public DayPanel(int numero, MonthPanel mes, int anio, JVentana ventanaOwner, String tipoDia)
     {
         this.ventanaOwner = ventanaOwner;
+        this.setTipoDia(tipoDia);
         this.mes = mes;
-        this.setEmocion(" ");
+        this.setAsociacion(" ");
         coloreado = 0;
 
         //si solo tiene un digito, añadir un 0 delante
@@ -41,7 +43,8 @@ public class DayPanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                AnimoDialog animoDlg = new AnimoDialog(DayPanel.this.getFecha(),ventanaOwner,true, DayPanel.this,ventanaOwner.getIdConectado());
+                //AnimoDialog animoDlg = new AnimoDialog(DayPanel.this.getFecha(),ventanaOwner,true, DayPanel.this,ventanaOwner.getIdConectado());
+                ColoresDialog coloresDlg = new ColoresDialog(DayPanel.this.getFecha(),ventanaOwner,true, DayPanel.this,ventanaOwner.getIdConectado(), tipoDia);
             }
         });
         this.add(btnDia);
@@ -56,19 +59,23 @@ public class DayPanel extends JPanel
         coloreado = 1;
     }
 
-    //añadido 2 oct
+    public void setTipoDia(String tipoDia)
+    {
+        this.tipoDia = tipoDia;
+    }
+
     public String getFecha()
     {
         return diaDosDigitos + mes.getMesYAnio();
     }
 
-    public void setEmocion(String emocion)
+    public void setAsociacion(String asociacion)
     {
-        this.emocion = emocion;
+        this.asociacion = asociacion;
     }
-    public String getEmocion()
+    public String getAsociacion()
     {
-        return emocion;
+        return asociacion;
     }
 
     public String getDiaDosDigitos()
@@ -88,5 +95,4 @@ public class DayPanel extends JPanel
     {
         return mes.getMesYAnio();
     }
-    //-----------
 }

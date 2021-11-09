@@ -34,20 +34,24 @@ public class Client {
 		//Create a cliente class
 		Client cliente = new Client(host, port);
 
-		//HashMap<String, Object> session = new HashMap<String, Object>();
-		//session.put("/getCustomer","");
-
 		Message mensajeEnvio = new Message();
 		Message mensajeVuelta = new Message();
 		mensajeEnvio.setContext(tipoMensaje);
 		System.out.println("imprimir en cliente: " + mensajeEnvio.getContext());
 		mensajeEnvio.setSession(session);
+
 		cliente.sent(mensajeEnvio, mensajeVuelta);
 
 		switch (mensajeVuelta.getContext()) {
-			case "/peticionAccesoResponse":
-				int respuesta = (Integer) mensajeVuelta.getSession().get("RespuestaAcceso");
-				session.put("RespuestaAcceso", respuesta);
+			case "/peticionAccesoResponse1":
+				int respuesta1 = (Integer) mensajeVuelta.getSession().get("RespuestaAcceso1");
+				session.put("RespuestaAcceso1", respuesta1);
+				break;
+
+			case "/peticionAccesoResponse2":
+
+				int respuesta2 = (Integer) mensajeVuelta.getSession().get("RespuestaAcceso2");
+				session.put("RespuestaAcceso2", respuesta2);
 				break;
 
 			case "/animoUsuarioResponse":
@@ -55,10 +59,19 @@ public class Client {
 				break;
 
 			case "/recuperacionAnimoResponse":
-				HashSet<MonthPanel> respuesta1 = new HashSet<MonthPanel>();
-				respuesta1 = (HashSet<MonthPanel>) mensajeVuelta.getSession().get("RespuestaRecAnimos");
-				session.put("RespuestaRecAnimos", respuesta1); //añadido despues de teams
-				System.out.println("éxito en la recuperación");
+				HashSet<MonthPanel> respuesta3 = new HashSet<MonthPanel>();
+				respuesta3 = (HashSet<MonthPanel>) mensajeVuelta.getSession().get("RespuestaRecAnimos");
+				session.put("RespuestaRecAnimos", respuesta3); //añadido despues de teams
+				System.out.println("éxito en la recuperación de ánimos");
+				break;
+			case "/habitoUsuarioResponse":
+				System.out.println("se ha añadido el habito correctamente");
+				break;
+			case "/recuperacionHabitoResponse":
+				HashSet<MonthPanel> respuesta4 = new HashSet<MonthPanel>();
+				respuesta4 = (HashSet<MonthPanel>) mensajeVuelta.getSession().get("RespuestaRecHabitos");
+				session.put("RespuestaRecHabitos", respuesta4);
+				System.out.println("éxito en la recuperación de hábitos?");
 				break;
 
 			default:
@@ -94,7 +107,7 @@ public class Client {
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
 
 				//Create the object to send
-				objectOutputStream.writeObject(messageOut);
+				objectOutputStream.writeObject(messageOut); //EL PROBLEMA ESTÁ AQUÍ!
 
 				// create a DataInputStream so we can read data from it.
 				ObjectInputStream objectInputStream = new ObjectInputStream(in);

@@ -24,6 +24,7 @@ import java.util.HashSet;
 public class CalendarDialog extends JDialog
 {
     private String strTitulo;
+    private String tipoCalendar;
     private JVentana ventanaOwner;
     private HashMap<String,MonthPanel> hmMeses; // Septiembre2021, MonthPanel
     private JComboBox cmbMesesSeg;
@@ -44,7 +45,8 @@ public class CalendarDialog extends JDialog
     {
 
     }
-    public CalendarDialog(JVentana ventanaOwner, boolean modal, String title, String idConectado)
+    //ENTREGA 2: NECESITAMOS OTRO JDIALOG PREVIO AL CALENDAR DE LOS HABITOS!!!!!
+    public CalendarDialog(JVentana ventanaOwner, boolean modal, String title, String idConectado, String tipoCalendar)
     {
         this.setModal(modal);
         this.setTitle(title);
@@ -52,6 +54,7 @@ public class CalendarDialog extends JDialog
         this.ventanaOwner = ventanaOwner;
         this.hmMeses = new HashMap<String,MonthPanel>();
         this.idConectado = idConectado;
+        this.tipoCalendar = tipoCalendar;
         //mesesArray = new ArrayList<MonthPanel>();
         mesesHSet = new HashSet<MonthPanel>();
 
@@ -120,7 +123,7 @@ public class CalendarDialog extends JDialog
                     String nombreMesNuevo = String.valueOf(cmbNuevosMeses.getSelectedItem());
                     if (nombreMesNuevo != null && nombreMesNuevo != cmbDefault)
                     {
-                        MonthPanel mesNuevo = new MonthPanel(nombreMesNuevo, anioNuevo, ventanaOwner);
+                        MonthPanel mesNuevo = new MonthPanel(nombreMesNuevo, anioNuevo, ventanaOwner, tipoCalendar);
                         CalendarDialog.this.addMonthPnl(mesNuevo);
                     }
                 }
@@ -148,8 +151,14 @@ public class CalendarDialog extends JDialog
                 {
                     for (DayPanel dia : mes.getDayArray())
                     {
-                        if (dia.isColoreado())
-                            ventanaOwner.addFechaEmocion(dia.getFecha(),dia.getEmocion());
+                        if (dia.isColoreado()) //añadir if/else para meter otros hábitos
+                        {
+                            if (tipoCalendar == "Animo")
+                                ventanaOwner.addFechaEmocion(dia.getFecha(),dia.getAsociacion());
+                            else
+                                ventanaOwner.addFechaHabito(dia.getFecha(),tipoCalendar,dia.getAsociacion());
+                        }
+
                     }
                 }
             }
@@ -163,10 +172,20 @@ public class CalendarDialog extends JDialog
                 Client client = new Client();
                 HashMap<String,Object> session=new HashMap<String, Object>();
                 session.put("id",idConectado);
+                session.put("habito",tipoCalendar);
                 session.put("ventana",ventanaOwner);
-                client.metodoClient("/recuperacionAnimo",session);
+
                 HashSet<MonthPanel> respuestaHSet = new HashSet<MonthPanel>();
-                respuestaHSet = (HashSet<MonthPanel>) session.get("RespuestaRecAnimos");
+                if (tipoCalendar == "Animo")
+                {
+                    client.metodoClient("/recuperacionAnimo",session);
+                    respuestaHSet = (HashSet<MonthPanel>) session.get("RespuestaRecAnimos");
+                }
+                else
+                {
+                    client.metodoClient("/recuperacionHabito",session);
+                    respuestaHSet = (HashSet<MonthPanel>) session.get("RespuestaRecHabitos");
+                }
 
                 for (MonthPanel mes : respuestaHSet)
                 {
@@ -193,5 +212,10 @@ public class CalendarDialog extends JDialog
         cmbMesesSeg.removeItem(cmbDefault);
         pnlCentro.add(mesNuevo);
         pnlCentro.updateUI();
+    }
+
+    public void setTipoCalendar(String tipoCalendar)
+    {
+        this.tipoCalendar = tipoCalendar;
     }
 }

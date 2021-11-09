@@ -1,6 +1,5 @@
 package neuraHealthUI.ui;
 
-
 import javax.swing.*;
 
 import java.awt.BorderLayout;
@@ -23,11 +22,14 @@ public class JVentana extends JFrame
     //añadido 2 oct
     private String idConectado;
     private HashMap<String,String> fechaYemocion;
+    private HashMap<String,String> fechaYhabito;
+    String tipo;
 
     public JVentana()
     {
         super("Mental Health App");
         fechaYemocion = new HashMap<String,String>();
+        fechaYhabito = new HashMap<String,String>();
         this.setLayout(new BorderLayout());
 
         //ventana de autenticacion
@@ -59,7 +61,6 @@ public class JVentana extends JFrame
 
         //paneles para poder añadir label icons
         JPanel pnlCalendarAnimo = new JPanel();
-        //JLabel lblAnimo = new JLabel(new ImageIcon("images/Imagen1.png"));
         JLabel lblAnimo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("Imagen1.png")));
         pnlCalendarAnimo.add(lblAnimo);
         JButton btnCalendarAnimo = new JButton("Mi estado de ánimo");
@@ -68,17 +69,24 @@ public class JVentana extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                CalendarDialog calendarDlg = new CalendarDialog(JVentana.this, true, "Mi estado de ánimo", idConectado);
+                CalendarDialog calendarDlg = new CalendarDialog(JVentana.this, true, "Mi estado de ánimo", idConectado, "Animo");
             }
         });
         pnlCalendarAnimo.add(btnCalendarAnimo);
         pnlCentro.add(pnlCalendarAnimo);
 
         JPanel pnlCalendarSeg = new JPanel();
-        //JLabel lblSeg = new JLabel(new ImageIcon("images/Imagen2.png"));
         JLabel lblSeg = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("Imagen2.png")));
         pnlCalendarSeg.add(lblSeg);
         JButton btnCalendarSeg = new JButton("Mis hábitos");
+        btnCalendarSeg.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                HabitosDialog habitosDlg = new HabitosDialog(JVentana.this, true, idConectado);
+            }
+        });
         pnlCalendarSeg.add(btnCalendarSeg);
         pnlCentro.add(pnlCalendarSeg);
 
@@ -142,10 +150,22 @@ public class JVentana extends JFrame
         fechaYemocion.put(fecha,emocion);
     }
 
+    public void addFechaHabito(String fecha, String habito, String estadoHabito) //habito es el estado del mismo
+    {
+        fechaYhabito.put(fecha,habito+"#"+estadoHabito); //lo separo con un simbolo para poder partir luego el string
+    }
+
     public HashMap<String,String> getHmFechaEmocion()
     {
         return fechaYemocion;
     }
 
-    //--------
+    public HashMap<String,String> getHmFechaHabito()
+    {
+        return fechaYhabito;
+    }
+
+    public void setTipoUsuarioEntrante(String tipo){
+        this.tipo=tipo;
+    }
 }

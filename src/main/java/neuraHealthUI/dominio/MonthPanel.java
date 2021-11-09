@@ -1,6 +1,5 @@
 package neuraHealthUI.dominio;
 
-import neuraHealthUI.ui.AnimoDialog;
 import neuraHealthUI.ui.JVentana;
 
 import javax.swing.JPanel;
@@ -20,17 +19,19 @@ public class MonthPanel extends JPanel
     private String nombreMes;
     private int anio;
     private JVentana ventanaOwner;
+    private String tipoMes; //indica si se trata de un mes del calendario de ánimos o de hábitos
     //org
     String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
     int diasMeses[] = {31,28,31,30,31,30,31,31,30,31,30,31};
     HashMap<String,Integer> mesDias = new HashMap<String,Integer>();
 
-    public MonthPanel(String nombreMes, int anio, JVentana ventanaOwner) //add attribute tipoMes
+    public MonthPanel(String nombreMes, int anio, JVentana ventanaOwner, String tipoMes)
     {
         this.setLayout(new BorderLayout());
         this.diasArrayList = new ArrayList<DayPanel>();
         this.setAnio(anio);
         this.setNombreMes(nombreMes);
+        this.setTipoMes(tipoMes);
         this.ventanaOwner = ventanaOwner;
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK,4));
         //org
@@ -58,7 +59,7 @@ public class MonthPanel extends JPanel
 
         for (int i = 1;i<mesDias.get(nombreMes)+1;i++)
         {
-            diasArrayList.add(new DayPanel(i,MonthPanel.this,(MonthPanel.this).getAnio(), ventanaOwner));
+            diasArrayList.add(new DayPanel(i,MonthPanel.this,(MonthPanel.this).getAnio(), ventanaOwner, tipoMes));
             pnlCentro.add(diasArrayList.get(i-1)); //day panel
         }
 
@@ -76,6 +77,11 @@ public class MonthPanel extends JPanel
     public void setAnio(int anio)
     {
         this.anio = anio;
+    }
+
+    public void setTipoMes(String tipoMes)
+    {
+        this.tipoMes = tipoMes;
     }
 
     public int getAnio()
