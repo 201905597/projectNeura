@@ -195,7 +195,7 @@ public class UsernameDialog extends JDialog {
 
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setSize(300, 200);
+        this.setSize(400, 200);
         this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setVisible(true);

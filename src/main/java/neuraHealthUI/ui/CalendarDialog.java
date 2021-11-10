@@ -151,7 +151,7 @@ public class CalendarDialog extends JDialog
                 {
                     for (DayPanel dia : mes.getDayArray())
                     {
-                        if (dia.isColoreado()) //añadir if/else para meter otros hábitos
+                        if (dia.isColoreado())
                         {
                             if (tipoCalendar == "Animo")
                                 ventanaOwner.addFechaEmocion(dia.getFecha(),dia.getAsociacion());
