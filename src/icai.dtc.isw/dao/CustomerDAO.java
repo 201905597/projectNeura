@@ -387,10 +387,10 @@ public class CustomerDAO {
 		return habitosbbdd;
 	}
 
-	public static ArrayList<Usuario> recuperarPacientes(String idConectado)
+	public static HashMap<String,String> recuperarPacientes(String idConectado)
 	{
 		System.out.println(idConectado);
-		ArrayList<Usuario> pacientes = new ArrayList<Usuario>();
+		HashMap<String,String> pacientes = new HashMap<String,String>();
 		Connection con = ConnectionDAO.getInstance().getConnection();
 		try (PreparedStatement pst = con.prepareStatement("SELECT * FROM psicologopacientes");
 			 ResultSet rs = pst.executeQuery()) {
@@ -400,7 +400,7 @@ public class CustomerDAO {
 					System.out.println("Encuentro el psicologo que ha entrado");
 					String idPaciente = rs.getString(3);
 					String nombrePaciente = rs.getString(4);
-					pacientes.add(new Usuario(idPaciente,nombrePaciente));
+					pacientes.put(idPaciente,nombrePaciente);
 				} else {
 					System.out.println("Este psicologo no tiene pacientes que usen NeuraHealth");
 				}
@@ -410,11 +410,13 @@ public class CustomerDAO {
 		{
 			System.out.println(ex.getMessage());
 		}
-		/*for (Usuario usuario : pacientes)
-			System.out.println(usuario.getNombre());*/
+		for (Map.Entry<String, String> entry : pacientes.entrySet())
+		{
+			System.out.println(entry.getKey() + entry.getValue());
+		}
+
 		return pacientes;
 	}
-
 
 	//-------------------------------------
 

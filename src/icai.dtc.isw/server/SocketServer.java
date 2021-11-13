@@ -41,10 +41,9 @@ public class SocketServer extends Thread {
 			//first read the object that has been sent
 			ObjectInputStream objectInputStream = new ObjectInputStream(in);
 			Message mensajeIn= (Message)objectInputStream.readObject();
-			System.out.println(mensajeIn.getContext());
 			//Object to return informations
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
-
+			System.out.println("context de mensaje in: " + mensajeIn.getContext());
 			Message mensajeOut=new Message();
 			switch (mensajeIn.getContext()) {
 				case ("/peticionAccesoUsuario"):
@@ -112,12 +111,13 @@ public class SocketServer extends Thread {
 					break;
 				case ("/recuperacionPacientes"):
 					CustomerControler customerControler7=new CustomerControler();
-					ArrayList<Usuario> var7 = customerControler7.recuperacionPacientes((String)mensajeIn.getSession().get("id"));
+					HashMap<String,String> var7 = customerControler7.recuperacionPacientes((String)mensajeIn.getSession().get("id"));
 					mensajeOut.setContext("/recuperacionPacientesResponse");
 					HashMap<String,Object> session7=new HashMap<String, Object>();
 					session7.put("RespuestaRecPacientes",var7);
 					mensajeOut.setSession(session7);
 					objectOutputStream.writeObject(mensajeOut);
+					System.out.println("setteo el contexto");
 					break;
 				default:
 					System.out.println("\nParámetro no encontrado");

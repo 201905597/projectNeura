@@ -84,6 +84,8 @@ public class MonthPanel extends JPanel
         this.tipoMes = tipoMes;
     }
 
+    public String getTipoMes() {return tipoMes;}
+
     public int getAnio()
     {
         return anio;
@@ -99,11 +101,69 @@ public class MonthPanel extends JPanel
         return nombreMes + String.valueOf(anio);
     }
 
-    //añadido 2 oct
     public ArrayList<DayPanel> getDayArray()
     {
         return diasArrayList;
     }
 
+    public int getDiasSeguimiento()
+    {
+        int numero = 0;
+        for (DayPanel day : MonthPanel.this.getDayArray())
+        {
+            if (day != null && day.isColoreado())
+            {
+                numero ++;
+            }
+        }
+        return numero;
+    }
 
+    public int getDias(String asociacion)
+    {
+        int numero = 0;
+        for (DayPanel day : MonthPanel.this.getDayArray())
+        {
+            if (day != null && day.isColoreado() && day.getAsociacion().equals(asociacion))
+            {
+                numero ++;
+            }
+        }
+        return numero;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        if (!MonthPanel.this.getTipoMes().equals("Animo"))
+        {
+            sb.append(tipoMes + ", " + nombreMes + " " + anio + ":")
+                    .append("\nDías seguimiento: ")
+                    .append(MonthPanel.this.getDiasSeguimiento())
+                    .append("\nDías hecho: ")
+                    .append(MonthPanel.this.getDias("Hecho"))
+                    .append("\nDías no hecho: ")
+                    .append(MonthPanel.this.getDias("No hecho"));
+        }
+        if (MonthPanel.this.getTipoMes().equals("Animo"))
+        {
+            sb.append("Estado de ánimo, ")
+                    .append(nombreMes + " " + anio + ":")
+                    .append("\nDías seguimiento: ")
+                    .append(MonthPanel.this.getDiasSeguimiento())
+                    .append("\nDías felices: ")
+                    .append(MonthPanel.this.getDias("Feliz"))
+                    .append("\nDías productivos: ")
+                    .append(MonthPanel.this.getDias("Productiv@"))
+                    .append("\nDías tristes: ")
+                    .append(MonthPanel.this.getDias("Triste"))
+                    .append("\nDías con estrés: ")
+                    .append(MonthPanel.this.getDias("Estresad@"))
+                    .append("\nDías cansados: ")
+                    .append(MonthPanel.this.getDias("Cansad@"));
+        }
+
+        return sb.toString();
+    }
 }

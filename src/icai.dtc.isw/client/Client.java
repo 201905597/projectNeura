@@ -82,8 +82,8 @@ public class Client {
 				System.out.println("éxito en la recuperación de los nombres de hábitos");
 				break;
 			case "/recuperacionPacientesResponse":
-				ArrayList<Usuario> respuesta7 = new ArrayList<Usuario>();
-				respuesta7 = (ArrayList<Usuario>) mensajeVuelta.getSession().get("RespuestaRecPacientes");
+				HashMap<String,String> respuesta7 = new HashMap<String,String>();
+				respuesta7 = (HashMap<String, String>) mensajeVuelta.getSession().get("RespuestaRecPacientes") ;
 				session.put("RespuestaRecPacientes",respuesta7);
 				System.out.println("éxito en la recuperación de los pacientes");
 				break;

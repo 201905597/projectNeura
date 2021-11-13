@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class JVentana extends JFrame
 {
@@ -118,11 +119,16 @@ public class JVentana extends JFrame
             case "psicologo":
                 System.out.println("VENTANA PSICOLOGO");
                 Client client = new Client();
-                HashMap<String,Object> session=new HashMap<String, Object>();
-                session.put("id",idConectado);
-                ArrayList<Usuario> pacientes = new ArrayList<Usuario>();
-                client.metodoClient("/recuperacionPacientes",session);
-                pacientes = (ArrayList<Usuario>) session.get("RespuestaRecPacientes");
+                HashMap<String,Object> session1=new HashMap<String, Object>();
+                session1.put("id",idConectado);
+                HashSet<Usuario> pacientes = new HashSet<Usuario>();
+                client.metodoClient("/recuperacionPacientes",session1);
+                HashMap<String,String> pacientesMap = (HashMap<String,String>) session1.get("RespuestaRecPacientes");
+                for (Map.Entry<String, String> entry : pacientesMap.entrySet())
+                {
+                    Usuario usuario = new Usuario(entry.getKey(),entry.getValue());
+                    pacientes.add(usuario);
+                }
                 psicologo.setPacientes(pacientes);
 
                 ArrayList<JButton> btnPacientes = new ArrayList<JButton>();
@@ -131,7 +137,7 @@ public class JVentana extends JFrame
                 for (Usuario paciente : pacientes)
                 {
                     System.out.println("nombre: "+paciente.getNombre());
-                    JButton btnPac = new JButton(paciente.getNombre() + "#" + paciente.getId());
+                    JButton btnPac = new JButton(paciente.getNombre() + "-" + paciente.getId());
                     btnPacientes.add(btnPac);
                     pnlCentro.add(btnPac);
                 }

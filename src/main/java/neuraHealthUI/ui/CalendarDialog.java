@@ -58,7 +58,7 @@ public class CalendarDialog extends JDialog
         this.ventanaOwner = ventanaOwner;
         this.hmMeses = new HashMap<String,MonthPanel>();
         this.idConectado = idConectado;
-        this.tipoCalendar = tipoCalendar;
+        this.setTipoCalendar(tipoCalendar);
         //mesesArray = new ArrayList<MonthPanel>();
         mesesHSet = new HashSet<MonthPanel>();
 

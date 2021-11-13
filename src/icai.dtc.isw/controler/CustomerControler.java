@@ -37,6 +37,6 @@ public class CustomerControler {
 
 	public HashSet<String> recuperacionNombreHabitos(String id){return CustomerDAO.recuperarNombreHabitos(id);}
 
-	public ArrayList<Usuario> recuperacionPacientes(String id){return CustomerDAO.recuperarPacientes(id);}
+	public HashMap<String,String> recuperacionPacientes(String id){return CustomerDAO.recuperarPacientes(id);}
 }
 
