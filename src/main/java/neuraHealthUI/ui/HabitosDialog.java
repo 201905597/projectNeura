@@ -17,6 +17,7 @@ public class HabitosDialog extends JDialog
     private JVentana ventanaOwner;
     private String idConectado;
     ArrayList<JButton> botonesHabitos;
+    ArrayList<String> habitos;
     JPanel pnlCentro;
 
     public HabitosDialog(JVentana ventanaOwner, boolean modal, String idConectado)
@@ -26,6 +27,7 @@ public class HabitosDialog extends JDialog
         this.idConectado = idConectado;
         this.ventanaOwner = ventanaOwner;
         this.botonesHabitos = new ArrayList<JButton>();
+        this.habitos = new ArrayList<String>();
 
         this.setLayout(new BorderLayout());
 
@@ -40,6 +42,8 @@ public class HabitosDialog extends JDialog
         JButton btnSueno = new JButton("Sueño");
         botonesHabitos.add(btnDeporte);
         botonesHabitos.add(btnSueno);
+        habitos.add(btnDeporte.getText());
+        habitos.add(btnSueno.getText());
         for (JButton boton : botonesHabitos)
         {
             pnlCentro.add(boton);
@@ -69,10 +73,15 @@ public class HabitosDialog extends JDialog
             public void actionPerformed(ActionEvent e)
             {
                 String nombreHabito = JOptionPane.showInputDialog(null,"Escribe el nombre de tu nuevo hábito: ");
-                if ((nombreHabito != null) && (nombreHabito.length()>0))
+                if ((nombreHabito != null) && (nombreHabito.length()>0) && (!habitos.contains(nombreHabito)))
                 {
                     HabitosDialog.this.addNuevoHabito(nombreHabito);
+                    habitos.add(nombreHabito);
                     HabitosDialog.this.gestionarEventos();
+                }
+                else if (nombreHabito == null)
+                {
+                    System.out.println("nada");
                 }
                 else
                 {
