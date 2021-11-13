@@ -74,7 +74,6 @@ public class UsernameDialog extends JDialog {
 
         JPanel jpnlPsico=new JPanel();
         jpnlPsico.setLayout(new GridLayout(1, 2));
-        //jpnlPsico.setBounds(50, 0, 30, 30);
         this.add(jpnlPsico);
 
 
@@ -103,7 +102,12 @@ public class UsernameDialog extends JDialog {
                     tipo = "psicologo";
                     ventanaOwner.setTipoUsuarioEntrante(tipo);
                     txtCentro.setVisible(true);
-
+                }
+                else
+                {
+                    tipo = "usuario";
+                    ventanaOwner.setTipoUsuarioEntrante(tipo);
+                    txtCentro.setVisible(false);
                 }
             }
         });
@@ -118,17 +122,9 @@ public class UsernameDialog extends JDialog {
                 String nombre = txtUser.getText();
                 String id = txtId.getText();
                 String centro = txtCentro.getText();
-                //String host = PropertiesISW.getInstance().getProperty("host");
-                //int port = Integer.parseInt(PropertiesISW.getInstance().getProperty("port"));
                 Client client=new Client();
                 HashMap<String,Object> session=new HashMap<String, Object>();
 
-                /*session.put("id",id);
-                session.put("nombre",nombre);
-                client.metodoClient("/peticionAcceso",session);
-                int respuesta = (Integer) session.get("RespuestaAcceso");*/
-
-                //
                 System.out.println("estoy accediendo como: " + tipo);
 
                 int respuesta=0;
@@ -143,9 +139,7 @@ public class UsernameDialog extends JDialog {
                 if (tipo=="psicologo")
                 {
                     session.put("id",id);
-                    /*Psicologo psicologo= new Psicologo(id, nombre, centro);
-                    session.put("psicologo", psicologo);*/
-                    session.put("centro",centro); //PRUEBA
+                    session.put("centro",centro);
                     client.metodoClient("/peticionAccesoPsicologo",session);
                     respuesta = (Integer) session.get("RespuestaAcceso2");
                 }
@@ -157,14 +151,17 @@ public class UsernameDialog extends JDialog {
                     (UsernameDialog.this).dispose();
                     if(tipo=="usuario")
                     {
+                        ventanaOwner.setTipoUsuarioEntrante("usuario");
+                        ventanaOwner.gestionarEventos();
                         ventanaOwner.setVisible(true);
                     }
-                    else
+                    if (tipo=="psicologo")
                     {
-                        //hacer lo de los jpanels
-                        //ventanaOwner.setVisible(true);
+                        ventanaOwner.setTipoUsuarioEntrante("psicologo");
+                        ventanaOwner.setPsicologo(id,nombre,centro);
+                        ventanaOwner.setVisible(true);
+                        ventanaOwner.gestionarEventos();
                         System.out.println("he entrado como psicologo");
-                        ventanaOwner.dispose();
                     }
                 }
                 else

@@ -3,6 +3,8 @@ package icai.dtc.isw.controler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import main.java.neuraHealthUI.dominio.Usuario;
 import neuraHealthUI.dominio.MonthPanel;
 import neuraHealthUI.ui.JVentana;
 
@@ -20,11 +22,6 @@ public class CustomerControler {
 		return CustomerDAO.autenticarAlUsuario(id, nombre);
 	}
 
-	/*public int autenticarAlPsicologo(String id,Psicologo psicologo)
-	{
-		return CustomerDAO.autenticarAlPsicologo(id,psicologo);
-	}*/
-
 	public int autenticarAlPsicologo(String id, String centro)
 	{
 		return CustomerDAO.autenticarAlPsicologo(id,centro);
@@ -37,5 +34,9 @@ public class CustomerControler {
 	public void insertarHabitos(String id, HashMap<String,String> hm) {CustomerDAO.rellenarHabitos(id,hm);}
 
 	public HashSet<MonthPanel> recuperacionDeHabitos(String id,String habito, JVentana ventana){return CustomerDAO.recuperarHabitos(id,habito,ventana);}
+
+	public HashSet<String> recuperacionNombreHabitos(String id){return CustomerDAO.recuperarNombreHabitos(id);}
+
+	public ArrayList<Usuario> recuperacionPacientes(String id){return CustomerDAO.recuperarPacientes(id);}
 }
 

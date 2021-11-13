@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Calendario para la funcionalidad de calendario de estados de ánimo y calendario de hábitos.
+ * Es un JDialog que permite al usuario ver el seguimiento de sus hábitos o emociones y rellenarlo cada día.
+ */
 public class CalendarDialog extends JDialog
 {
     private String strTitulo;
@@ -45,7 +49,7 @@ public class CalendarDialog extends JDialog
     {
 
     }
-    //ENTREGA 2: NECESITAMOS OTRO JDIALOG PREVIO AL CALENDAR DE LOS HABITOS!!!!!
+
     public CalendarDialog(JVentana ventanaOwner, boolean modal, String title, String idConectado, String tipoCalendar)
     {
         this.setModal(modal);
@@ -156,7 +160,10 @@ public class CalendarDialog extends JDialog
                             if (tipoCalendar == "Animo")
                                 ventanaOwner.addFechaEmocion(dia.getFecha(),dia.getAsociacion());
                             else
+                            {
                                 ventanaOwner.addFechaHabito(dia.getFecha(),tipoCalendar,dia.getAsociacion());
+                            }
+
                         }
 
                     }
@@ -164,6 +171,9 @@ public class CalendarDialog extends JDialog
             }
         });
 
+        /**
+         * Cuando se abre el CalendarDialog se recuperan los datos guardados de días previos de la base de datos
+         */
         this.addWindowListener(new WindowAdapter() {
             public void windowOpened(WindowEvent e)
             {

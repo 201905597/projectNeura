@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import main.java.neuraHealthUI.dominio.Usuario;
 import neuraHealthUI.dominio.MonthPanel;
 import neuraHealthUI.ui.JVentana;
 
@@ -39,14 +41,16 @@ public class SocketServer extends Thread {
 			//first read the object that has been sent
 			ObjectInputStream objectInputStream = new ObjectInputStream(in);
 			Message mensajeIn= (Message)objectInputStream.readObject();
+			System.out.println(mensajeIn.getContext());
 			//Object to return informations
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
+
 			Message mensajeOut=new Message();
 			switch (mensajeIn.getContext()) {
 				case ("/peticionAccesoUsuario"):
 					CustomerControler customerControler=new CustomerControler();
 					int var=customerControler.autenticarAlUsuario((String)mensajeIn.getSession().get("id"),(String)mensajeIn.getSession().get("nombre"));
-					mensajeOut.setContext("/peticionAccesoResponse");
+					mensajeOut.setContext("/peticionAccesoResponse1");
 					HashMap<String,Object> session=new HashMap<String, Object>();
 					session.put("RespuestaAcceso1",var);
 					mensajeOut.setSession(session);
@@ -90,12 +94,29 @@ public class SocketServer extends Thread {
 				case ("/recuperacionHabito"):
 					System.out.println("aqui recupero de la tabla usuariohabitos");
 					CustomerControler customerControler4=new CustomerControler();
-					//HashSet<MonthPanel> var4=customerControler4.recuperacionDeHabitos((String)mensajeIn.getSession().get("id"),(JVentana)mensajeIn.getSession().get("ventana"));
 					HashSet<MonthPanel> var4=customerControler4.recuperacionDeHabitos((String)mensajeIn.getSession().get("id"),(String)mensajeIn.getSession().get("habito"),(JVentana)mensajeIn.getSession().get("ventana"));
 					mensajeOut.setContext("/recuperacionHabitoResponse");
 					HashMap<String,Object> session4=new HashMap<String, Object>();
 					session4.put("RespuestaRecHabitos",var4);
 					mensajeOut.setSession(session4);
+					objectOutputStream.writeObject(mensajeOut);
+					break;
+				case ("/recuperacionNombreHabitos"):
+					CustomerControler customerControler6=new CustomerControler();
+					HashSet<String> var6 = customerControler6.recuperacionNombreHabitos((String)mensajeIn.getSession().get("id"));
+					mensajeOut.setContext("/recuperacionNombreHabitosResponse");
+					HashMap<String,Object> session6=new HashMap<String, Object>();
+					session6.put("RespuestaRecNombreHabitos",var6);
+					mensajeOut.setSession(session6);
+					objectOutputStream.writeObject(mensajeOut);
+					break;
+				case ("/recuperacionPacientes"):
+					CustomerControler customerControler7=new CustomerControler();
+					ArrayList<Usuario> var7 = customerControler7.recuperacionPacientes((String)mensajeIn.getSession().get("id"));
+					mensajeOut.setContext("/recuperacionPacientesResponse");
+					HashMap<String,Object> session7=new HashMap<String, Object>();
+					session7.put("RespuestaRecPacientes",var7);
+					mensajeOut.setSession(session7);
 					objectOutputStream.writeObject(mensajeOut);
 					break;
 				default:

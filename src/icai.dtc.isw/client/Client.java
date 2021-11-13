@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+
+import main.java.neuraHealthUI.dominio.Usuario;
 import neuraHealthUI.dominio.MonthPanel;
 
 import org.apache.log4j.Logger;
@@ -73,6 +75,18 @@ public class Client {
 				session.put("RespuestaRecHabitos", respuesta4);
 				System.out.println("éxito en la recuperación de hábitos?");
 				break;
+			case "/recuperacionNombreHabitosResponse":
+				HashSet<String> respuesta6 = new HashSet<String>();
+				respuesta6 = (HashSet<String>) mensajeVuelta.getSession().get("RespuestaRecNombreHabitos");
+				session.put("RespuestaRecNombreHabitos", respuesta6);
+				System.out.println("éxito en la recuperación de los nombres de hábitos");
+				break;
+			case "/recuperacionPacientesResponse":
+				ArrayList<Usuario> respuesta7 = new ArrayList<Usuario>();
+				respuesta7 = (ArrayList<Usuario>) mensajeVuelta.getSession().get("RespuestaRecPacientes");
+				session.put("RespuestaRecPacientes",respuesta7);
+				System.out.println("éxito en la recuperación de los pacientes");
+				break;
 
 			default:
 				Logger.getRootLogger().info("Option not found");
@@ -107,10 +121,11 @@ public class Client {
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
 
 				//Create the object to send
-				objectOutputStream.writeObject(messageOut); //EL PROBLEMA ESTÁ AQUÍ!
+				objectOutputStream.writeObject(messageOut);
 
 				// create a DataInputStream so we can read data from it.
 				ObjectInputStream objectInputStream = new ObjectInputStream(in);
+
 				Message msg=(Message)objectInputStream.readObject();
 				messageIn.setContext(msg.getContext());
 				messageIn.setSession(msg.getSession());

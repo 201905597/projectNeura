@@ -28,7 +28,7 @@ public class DayPanel extends JPanel
         this.setTipoDia(tipoDia);
         this.mes = mes;
         this.setAsociacion(" ");
-        coloreado = 0;
+        this.setColoreado(0);
 
         //si solo tiene un digito, añadir un 0 delante
         if (numero<10)
@@ -56,7 +56,7 @@ public class DayPanel extends JPanel
     {
         this.btnDia.setBackground(color);
         DayPanel.this.updateUI();
-        coloreado = 1;
+        DayPanel.this.setColoreado(1);
     }
 
     public void setTipoDia(String tipoDia)
@@ -94,5 +94,10 @@ public class DayPanel extends JPanel
     public String getMesYAnio()
     {
         return mes.getMesYAnio();
+    }
+
+    public void setColoreado(int coloreado)
+    {
+        this.coloreado = coloreado;
     }
 }
