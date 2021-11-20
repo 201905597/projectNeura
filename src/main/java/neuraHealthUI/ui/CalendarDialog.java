@@ -50,6 +50,14 @@ public class CalendarDialog extends JDialog
 
     }
 
+    /**
+     * Constructor del CalendarDialog
+     * @param ventanaOwner la JVentana principal, JFrame padre de este JDialog
+     * @param modal true si lo es, false si no
+     * @param title título del CalendarDialog
+     * @param idConectado id del usuario/psicólogo que ha iniciado sesión
+     * @param tipoCalendar indica si el calendario es de ánimos o de hábitos (puede ser cualquier hábito)
+     */
     public CalendarDialog(JVentana ventanaOwner, boolean modal, String title, String idConectado, String tipoCalendar)
     {
         this.setModal(modal);
@@ -59,7 +67,6 @@ public class CalendarDialog extends JDialog
         this.hmMeses = new HashMap<String,MonthPanel>();
         this.idConectado = idConectado;
         this.setTipoCalendar(tipoCalendar);
-        //mesesArray = new ArrayList<MonthPanel>();
         mesesHSet = new HashSet<MonthPanel>();
 
         //PANEL NORTE
@@ -143,7 +150,6 @@ public class CalendarDialog extends JDialog
 
         this.add(pnlSur, BorderLayout.SOUTH);
 
-        //añadido 2 oct
         this.addWindowListener(new WindowAdapter()
         {
 
@@ -215,6 +221,10 @@ public class CalendarDialog extends JDialog
         this.setVisible(true);
     }
 
+    /**
+     * Método para añadir meses nuevos al seguimiento
+     * @param mesNuevo
+     */
     public void addMonthPnl(MonthPanel mesNuevo)
     {
         hmMeses.put(mesNuevo.getMesYAnio(), mesNuevo);
@@ -224,6 +234,10 @@ public class CalendarDialog extends JDialog
         pnlCentro.updateUI();
     }
 
+    /**
+     * Setter del tipo de calendario (ánimo o hábitos)
+     * @param tipoCalendar
+     */
     public void setTipoCalendar(String tipoCalendar)
     {
         this.tipoCalendar = tipoCalendar;

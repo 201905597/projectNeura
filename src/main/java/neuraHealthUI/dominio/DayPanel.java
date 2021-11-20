@@ -83,6 +83,9 @@ public class DayPanel extends JPanel
         return diaDosDigitos;
     }
 
+    /**
+     * @return true si se ha rellenado el día (con emoción o hábito)
+     */
     public boolean isColoreado()
     {
         if (coloreado == 1)
@@ -91,6 +94,9 @@ public class DayPanel extends JPanel
             return false;
     }
 
+    /**
+     * @return objeto String del mes y el año concatenados "Enero2022"
+     */
     public String getMesYAnio()
     {
         return mes.getMesYAnio();

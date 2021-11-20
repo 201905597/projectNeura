@@ -19,6 +19,8 @@ public class ColoresDialog extends JDialog
     private String idConectado;
     private ArrayList<JToggleButton> arrayEmociones;
     private ArrayList<JToggleButton> arrayHabitos;
+    private ButtonGroup btnEmoc;
+    private ButtonGroup btnHab;
     //color coding
     private ArrayList<AsociacionColor> asociacionColores;
 
@@ -31,6 +33,8 @@ public class ColoresDialog extends JDialog
         this.diaOwner = diaOwner;
         this.arrayEmociones = new ArrayList<JToggleButton>();
         this.arrayHabitos = new ArrayList<JToggleButton>();
+        this.btnEmoc = new ButtonGroup();
+        this.btnHab = new ButtonGroup();
 
         AsociacionColor feliz = new AsociacionColor("Feliz");
         AsociacionColor triste = new AsociacionColor("Triste");
@@ -73,30 +77,37 @@ public class ColoresDialog extends JDialog
         tglFeliz.setOpaque(true);
         tglFeliz.setBackground(feliz.getColor());
         tglFeliz.setSelected(true);
+        btnEmoc.add(tglFeliz);
 
         JToggleButton tglTriste = new JToggleButton("Triste");
         tglTriste.setOpaque(true);
         tglTriste.setBackground(triste.getColor());
+        btnEmoc.add(tglTriste);
 
         JToggleButton tglEstresado = new JToggleButton("Estresad@");
         tglEstresado.setOpaque(true);
         tglEstresado.setBackground(estresado.getColor());
+        btnEmoc.add(tglEstresado);
 
         JToggleButton tglCansado = new JToggleButton("Cansad@");
         tglCansado.setOpaque(true);
         tglCansado.setBackground(cansado.getColor());
+        btnEmoc.add(tglCansado);
 
         JToggleButton tglProductivo = new JToggleButton("Productiv@");
         tglProductivo.setOpaque(true);
         tglProductivo.setBackground(productivo.getColor());
+        btnEmoc.add(tglProductivo);
 
         JToggleButton tglHecho = new JToggleButton("Hecho");
         tglHecho.setOpaque(true);
         tglHecho.setBackground(hecho.getColor());
+        btnHab.add(tglHecho);
 
         JToggleButton tglNoHecho = new JToggleButton("No hecho");
         tglProductivo.setOpaque(true);
         tglNoHecho.setBackground(nohecho.getColor());
+        btnHab.add(tglNoHecho);
 
         arrayEmociones.add(tglFeliz);
         arrayEmociones.add(tglTriste);

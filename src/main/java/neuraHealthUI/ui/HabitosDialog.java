@@ -32,7 +32,9 @@ public class HabitosDialog extends JDialog
         this.setLayout(new BorderLayout());
 
         //NORTE
-        JLabel lblMisHabitos = new JLabel("MIS HÁBITOS");
+        JLabel lblMisHabitos = new JLabel("MIS HÁBITOS",SwingConstants.CENTER);
+        lblMisHabitos.setPreferredSize(new Dimension(50,70));
+        lblMisHabitos.setForeground(Color.GREEN.darker());
         this.add(lblMisHabitos, BorderLayout.NORTH);
 
         //PANEL CENTRO: muestra los hábitos de los que el usuario hace seguimiento
@@ -126,6 +128,7 @@ public class HabitosDialog extends JDialog
     public void addNuevoHabito(String nombreHabito)
     {
         JButton btnNuevo = new JButton(nombreHabito);
+        habitos.add(nombreHabito);
         botonesHabitos.add(btnNuevo);
         pnlCentro.add(btnNuevo);
         pnlCentro.updateUI();

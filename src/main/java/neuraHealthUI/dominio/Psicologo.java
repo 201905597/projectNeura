@@ -1,7 +1,5 @@
 package main.java.neuraHealthUI.dominio;
 
-import javax.lang.model.type.ArrayType;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Psicologo

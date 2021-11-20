@@ -178,8 +178,9 @@ public class CustomerDAO {
 
 			String fecha = entry.getKey();
 			String emocion = entry.getValue();
+			String idFecha = idConectado+fecha;
 
-			try (PreparedStatement pst = con.prepareStatement("INSERT INTO usuarioanimos (id,fecha,emocion) VALUES (\'" + idConectado + "\',\'" + fecha + "\',\'" + emocion + "\')");
+			try (PreparedStatement pst = con.prepareStatement("INSERT INTO usuarioanimos (id,fecha,emocion,idfecha) VALUES (\'" + idConectado + "\',\'" + fecha + "\',\'" + emocion + "\',\'"+idFecha+"\')");
 				 ResultSet rs = pst.executeQuery()) {
 
 

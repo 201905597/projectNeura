@@ -69,7 +69,7 @@ public class UsernameDialog extends JDialog {
         this.add(lblId);
         this.add(txtId);
 
-        check=new JToggleButton("Acceder como psicologo");
+        check=new JToggleButton("Acceder como psicólogo");
         this.add(check);
 
         JPanel jpnlPsico=new JPanel();
