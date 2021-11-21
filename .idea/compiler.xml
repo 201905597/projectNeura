@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="neuraHealth" />
         <module name="projectNeura" />
+        <module name="neuraHealth - 20211121" />
       </profile>
     </annotationProcessing>
   </component>

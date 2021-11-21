@@ -339,6 +339,7 @@ public class CustomerDAO {
 
 			for (MonthPanel mes : mesesHSet)
 			{
+				System.out.println("mes de la bbdd: " + mes.getMesYAnio());
 				for (DayPanel day : mes.getDayArray())
 				{
 					String diaDosDigitos = day.getDiaDosDigitos();
