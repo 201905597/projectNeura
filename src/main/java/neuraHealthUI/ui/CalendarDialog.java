@@ -85,15 +85,33 @@ public class CalendarDialog extends JDialog
             public void actionPerformed(ActionEvent e)
             {
                 String mesAnioSel = String.valueOf(cmbMesesSeg.getSelectedItem());
-                if (mesAnioSel != null)
+                if (mesAnioSel != null && mesAnioSel != "No hay seguimiento aún")
                 {
                     for(Map.Entry<String,MonthPanel> entry : hmMeses.entrySet())
                     {
-                        if (entry.getKey() != null)
+                        String mes = entry.getKey();
+                        if (mes != null)
                         {
-                            if (entry.getKey().equals(mesAnioSel))
+                            if (mes.equals(mesAnioSel))
                             {
-                                entry.getValue().setVisible(true);
+                                System.out.println("HOLA");
+                                MonthPanel mesPnl = entry.getValue();
+
+                                for (DayPanel day : mesPnl.getDayArray())
+                                {
+                                    day.getBtnDia().addActionListener(new ActionListener()
+                                    {
+                                        @Override
+                                        public void actionPerformed(ActionEvent e)
+                                        {
+                                            System.out.println("ENTRO EN EL ACTION PERFORMED aqui");
+                                            neuraHealthUI.ui.ColoresDialog coloresDlg = new neuraHealthUI.ui.ColoresDialog(day.getFecha(),ventanaOwner,true, day,ventanaOwner.getIdConectado(), tipoCalendar);
+                                        }
+                                    });
+                                }
+                                mesPnl.setVisible(true);
+                                mesPnl.revalidate();
+                                mesPnl.updateUI();
                                 pnlCentro.updateUI();
                              }
                             else
@@ -130,7 +148,7 @@ public class CalendarDialog extends JDialog
             {
                 int anioNuevo=2021;
                 try{
-                     anioNuevo = Integer.parseInt(txtAnio.getText());
+                    anioNuevo = Integer.parseInt(txtAnio.getText());
                     String nombreMesNuevo = String.valueOf(cmbNuevosMeses.getSelectedItem());
                     if (nombreMesNuevo != null && nombreMesNuevo != cmbDefault)
                     {
@@ -229,7 +247,8 @@ public class CalendarDialog extends JDialog
     {
         hmMeses.put(mesNuevo.getMesYAnio(), mesNuevo);
         cmbMesesSeg.addItem(mesNuevo.getMesYAnio());
-        cmbMesesSeg.removeItem(cmbDefault);
+        if (cmbMesesSeg.getSelectedItem().equals(cmbDefault))
+            cmbMesesSeg.removeItem(cmbDefault);
         pnlCentro.add(mesNuevo);
         pnlCentro.updateUI();
     }

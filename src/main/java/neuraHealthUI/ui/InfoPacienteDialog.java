@@ -76,14 +76,13 @@ public class InfoPacienteDialog extends JDialog
                     if (habito != null)
                     {
                         System.out.println(habito);
-                        Client client2 = new Client();
-                        HashMap<String,Object> session2=new HashMap<String, Object>();
-                        session2.put("id",idPaciente);
-                        session2.put("habito",habito);
-                        session2.put("ventana",ventanaOwner);
+                        session=new HashMap<String, Object>();
+                        session.put("id",idPaciente);
+                        session.put("habito",habito);
+                        session.put("ventana",ventanaOwner);
                         HashSet<MonthPanel> respuestaHSetHabitos = new HashSet<MonthPanel>();
-                        client2.metodoClient("/recuperacionHabito",session2);
-                        respuestaHSetHabitos = (HashSet<MonthPanel>) session2.get("RespuestaRecHabitos");
+                        client.metodoClient("/recuperacionHabito",session);
+                        respuestaHSetHabitos = (HashSet<MonthPanel>) session.get("RespuestaRecHabitos");
                         for (MonthPanel mes : respuestaHSetHabitos)
                         {
                             JTextArea txtSeguimiento = new JTextArea(mes.toString());
@@ -92,7 +91,8 @@ public class InfoPacienteDialog extends JDialog
                             scrpCentro.getViewport().add(pnlCentro,null);
                         }
                     }
-                }*/
+                }
+                *///
             }
         });
 
