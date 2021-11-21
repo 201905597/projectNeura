@@ -59,7 +59,8 @@ public class MonthPanel extends JPanel
 
         for (int i = 1;i<mesDias.get(nombreMes)+1;i++)
         {
-            diasArrayList.add(new DayPanel(i,MonthPanel.this,(MonthPanel.this).getAnio(), ventanaOwner, tipoMes));
+            DayPanel diaNuevo = new DayPanel(i,MonthPanel.this,(MonthPanel.this).getAnio(), ventanaOwner, tipoMes);
+            diasArrayList.add(diaNuevo);
             pnlCentro.add(diasArrayList.get(i-1)); //day panel
         }
 

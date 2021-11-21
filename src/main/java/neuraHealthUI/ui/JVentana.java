@@ -68,7 +68,7 @@ public class JVentana extends JFrame
         this.add(pnlCentro, BorderLayout.CENTER);
         //-------------
 
-        this.setSize(550,550);
+        this.setSize(550,700);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -222,6 +222,22 @@ public class JVentana extends JFrame
                 JButton btnJuego = new JButton("Juego");
                 pnlJuego.add(btnJuego);
                 pnlCentro.add(pnlJuego);
+
+                JPanel pnlNotificaciones = new JPanel();
+                JLabel lblNotificaciones = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("Imagen6.png")));
+                pnlNotificaciones.add(lblNotificaciones);
+                JButton btnNotif = new JButton("Notificaciones");
+                pnlNotificaciones.add(btnNotif);
+                pnlCentro.add(pnlNotificaciones);
+                btnNotif.addActionListener(new ActionListener()
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        NotificDialog infoDlg = new NotificDialog(JVentana.this, true,idConectado);
+                    }
+                });
+
                 break;
             default:
                 System.out.println("error");

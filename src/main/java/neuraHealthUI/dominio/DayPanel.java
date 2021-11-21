@@ -38,15 +38,15 @@ public class DayPanel extends JPanel
 
         btnDia = new JButton(diaDosDigitos);
 
-        btnDia.addActionListener(new ActionListener()
+        /*btnDia.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                //AnimoDialog animoDlg = new AnimoDialog(DayPanel.this.getFecha(),ventanaOwner,true, DayPanel.this,ventanaOwner.getIdConectado());
+                System.out.println("ENTRO EN EL ACTION PERFORMED");
                 ColoresDialog coloresDlg = new ColoresDialog(DayPanel.this.getFecha(),ventanaOwner,true, DayPanel.this,ventanaOwner.getIdConectado(), tipoDia);
             }
-        });
+        });*/
         this.add(btnDia);
 
         this.setVisible(true);
@@ -105,5 +105,16 @@ public class DayPanel extends JPanel
     public void setColoreado(int coloreado)
     {
         this.coloreado = coloreado;
+    }
+
+    //prueba
+    public void setEnabledBtn()
+    {
+        this.btnDia.setEnabled(true);
+    }
+
+    public JButton getBtnDia()
+    {
+        return btnDia;
     }
 }

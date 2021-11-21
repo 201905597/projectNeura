@@ -46,15 +46,16 @@ public class NotificDialog extends JDialog {
         client.metodoClient("/recuperacionAnimo",session);
         respuestaHSet1 = (HashSet<neuraHealthUI.dominio.MonthPanel>) session.get("RespuestaRecAnimos");
 
-        client.metodoClient("/recuperacionHabito",session);
-        respuestaHSet2 = (HashSet<neuraHealthUI.dominio.MonthPanel>) session.get("RespuestaRecHabitos");
+        /*client.metodoClient("/recuperacionHabito",session);
+        respuestaHSet2 = (HashSet<neuraHealthUI.dominio.MonthPanel>) session.get("RespuestaRecHabitos");*/
 
         //ANIMOS
         for (neuraHealthUI.dominio.MonthPanel mes : respuestaHSet1)
         {
             if (mes.getDias("Feliz")>=10)
             {
-                JLabel jlbl1 = new JLabel("¡ENHORABUENA!. Has conseguido estar feliz en 10 días",SwingConstants.CENTER);
+                String texto = "¡ENHORABUENA!. Has conseguido estar feliz en 10 días de " + mes.getNombreMes();
+                JLabel jlbl1 = new JLabel(texto,SwingConstants.CENTER);
                 jlabels.add(jlbl1);
 
             }
@@ -63,7 +64,7 @@ public class NotificDialog extends JDialog {
 
 
         //HABITOS
-        for (neuraHealthUI.dominio.MonthPanel mes : respuestaHSet2)
+        /*for (neuraHealthUI.dominio.MonthPanel mes : respuestaHSet2)
         {
             if (mes.getDias("Hecho")==3)
             {
@@ -78,14 +79,14 @@ public class NotificDialog extends JDialog {
 
             }
 
-        }
+        }*/
 
 
         for (JLabel jlbl : jlabels)
         {
             jlbl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             pnlCentro.add(jlbl);
-
+            pnlCentro.updateUI();
         }
         NotificDialog.this.add(pnlCentro,BorderLayout.CENTER);
 
