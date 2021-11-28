@@ -10,10 +10,11 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MonthPanel extends JPanel
+public class MonthPanel extends JPanel implements Serializable
 {
     private ArrayList<DayPanel> diasArrayList;
     private String nombreMes;

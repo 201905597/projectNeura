@@ -1,8 +1,9 @@
 package main.java.neuraHealthUI.dominio;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class Psicologo
+public class Psicologo implements Serializable
 {
     private String id;
     private String nombre;

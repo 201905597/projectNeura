@@ -68,7 +68,7 @@ public class InfoPacienteDialog extends JDialog
                     scrpCentro.getViewport().add(pnlCentro,null);
                 }
 
-                /*//Recuperación de hábitos
+                //Recuperación de hábitos
                 client.metodoClient("/recuperacionNombreHabitos",session);
                 HashSet<String> habitosbbdd = (HashSet<String>) session.get("RespuestaRecNombreHabitos");
                 for (String habito : habitosbbdd)
@@ -77,6 +77,7 @@ public class InfoPacienteDialog extends JDialog
                     {
                         System.out.println(habito);
                         session=new HashMap<String, Object>();
+
                         session.put("id",idPaciente);
                         session.put("habito",habito);
                         session.put("ventana",ventanaOwner);
@@ -92,7 +93,7 @@ public class InfoPacienteDialog extends JDialog
                         }
                     }
                 }
-                *///
+                //
             }
         });
 

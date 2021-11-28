@@ -360,7 +360,10 @@ public class CustomerDAO {
 		{
 			System.out.println(ex.getMessage());
 		}
-
+		for (MonthPanel mes : mesesHSet)
+		{
+			System.out.println(mes.toString());
+		}
 		return mesesHSet;
 	}
 
