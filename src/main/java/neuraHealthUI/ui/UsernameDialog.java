@@ -5,16 +5,9 @@ import icai.dtc.isw.configuration.PropertiesISW;
 import icai.dtc.isw.dao.CustomerDAO;
 import main.java.neuraHealthUI.dominio.Psicologo;
 
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
+import javax.swing.*;
 
-import java.awt.GridLayout;
-import java.awt.Color;
+import java.awt.*;
 
 import java.util.HashMap;
 
@@ -43,8 +36,19 @@ public class UsernameDialog extends JDialog {
         this.setModal(modal);
         this.setOwner(ventanaOwner);
 
+        JPanel pnlNorte = new JPanel();
+        pnlNorte.setBackground(new Color(253,228,242));
+        JLabel lblLogo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("logoo.png")));
+        pnlNorte.add(lblLogo);
+        this.add(pnlNorte, BorderLayout.NORTH);
 
-        this.setLayout(new GridLayout(5, 2));
+        JPanel pnlCentro = new JPanel();
+        pnlCentro.setLayout(new GridLayout(4, 2));
+        pnlCentro.setBackground(new Color(253,228,242));
+        this.add(pnlCentro, BorderLayout.CENTER);
+
+
+
 
         JLabel lblUser = new JLabel("Usuario: ");
         JTextField txtUser = new JTextField(12);
@@ -55,8 +59,9 @@ public class UsernameDialog extends JDialog {
             }
         });
 
-        this.add(lblUser);
-        this.add(txtUser);
+        pnlCentro.add(lblUser);
+        pnlCentro.add(txtUser);
+
 
         JLabel lblId = new JLabel("Id: ");
         txtId = new JTextField(12);
@@ -66,15 +71,17 @@ public class UsernameDialog extends JDialog {
                     txtId.requestFocus();
             }
         });
-        this.add(lblId);
-        this.add(txtId);
+        pnlCentro.add(lblId);
+        pnlCentro.add(txtId);
 
         check=new JToggleButton("Acceder como psicólogo");
-        this.add(check);
+        check.setBackground(new Color(250,167,214));
+        pnlCentro.add(check);
 
         JPanel jpnlPsico=new JPanel();
+        jpnlPsico.setBackground(new Color(253,228,242));
         jpnlPsico.setLayout(new GridLayout(1, 2));
-        this.add(jpnlPsico);
+        pnlCentro.add(jpnlPsico);
 
 
         JLabel lblCentro = new JLabel("Centro: ");
@@ -114,7 +121,7 @@ public class UsernameDialog extends JDialog {
 
 
         JButton btnAcceder = new JButton("Acceder");
-        btnAcceder.setBackground(new Color(255, 102, 102));
+        btnAcceder.setBackground(new Color(150,187,235));
         btnAcceder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,9 +181,9 @@ public class UsernameDialog extends JDialog {
         });
 
 
-        this.add(btnAcceder);
+        pnlCentro.add(btnAcceder);
         JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBackground(new Color(51,204,255));
+        btnCancelar.setBackground(new Color(150,187,235));
         btnCancelar.addActionListener(new ActionListener()
         {
             @Override
@@ -188,11 +195,11 @@ public class UsernameDialog extends JDialog {
         });
         //-------------
 
-        this.add(btnCancelar);
+        pnlCentro.add(btnCancelar);
 
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setSize(400, 200);
+        this.setSize(450, 350);
         this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setVisible(true);

@@ -66,13 +66,13 @@ public class NotificDialog extends JDialog {
         //HABITOS
         /*for (neuraHealthUI.dominio.MonthPanel mes : respuestaHSet2)
         {
-            if (mes.getDias("Hecho")==3)
+            if (mes.getDias("Hecho")>=10)
             {
                 JLabel jlbl2 = new JLabel("¡ENHORABUENA!. Has conseguido hacer deporte más de 10 días",SwingConstants.CENTER);
                 jlabels.add(jlbl2);
 
             }
-            if (mes.getDias("Hecho")==1)
+            if (mes.getDias("Hecho")>=10)
             {
                 JLabel jlbl3 = new JLabel("¡ENHORABUENA!. Has conseguido dormir 8 horas más de 10 días",SwingConstants.CENTER);
                 jlabels.add(jlbl3);

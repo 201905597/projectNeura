@@ -178,9 +178,9 @@ public class CustomerDAO {
 
 			String fecha = entry.getKey();
 			String emocion = entry.getValue();
-			String idFecha = idConectado+fecha;
+			String idfecha= idConectado+fecha;
 
-			try (PreparedStatement pst = con.prepareStatement("INSERT INTO usuarioanimos (id,fecha,emocion,idfecha) VALUES (\'" + idConectado + "\',\'" + fecha + "\',\'" + emocion + "\',\'"+idFecha+"\')");
+			try (PreparedStatement pst = con.prepareStatement("INSERT INTO usuarioanimos (id,fecha,emocion,idfecha) VALUES (\'" + idConectado + "\',\'" + fecha + "\',\'" + emocion + "\',\'" + idfecha + "\')");
 				 ResultSet rs = pst.executeQuery()) {
 
 
@@ -339,7 +339,6 @@ public class CustomerDAO {
 
 			for (MonthPanel mes : mesesHSet)
 			{
-				System.out.println("mes de la bbdd: " + mes.getMesYAnio());
 				for (DayPanel day : mes.getDayArray())
 				{
 					String diaDosDigitos = day.getDiaDosDigitos();
@@ -360,10 +359,7 @@ public class CustomerDAO {
 		{
 			System.out.println(ex.getMessage());
 		}
-		for (MonthPanel mes : mesesHSet)
-		{
-			System.out.println(mes.toString());
-		}
+
 		return mesesHSet;
 	}
 

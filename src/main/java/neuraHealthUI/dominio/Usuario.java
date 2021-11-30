@@ -3,7 +3,7 @@ package main.java.neuraHealthUI.dominio;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class Usuario implements Serializable {
+public class Usuario  implements Serializable {
     private String id;
     private String nombre;
     private HashMap<String,String> hmFechaEmocion;

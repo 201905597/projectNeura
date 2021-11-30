@@ -8,11 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.time.Month;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class InfoPacienteDialog extends JDialog
+public class InfoPacienteDialog extends JDialog implements Serializable
 {
     private String idPaciente;
     private String nombrePaciente;
@@ -48,12 +49,14 @@ public class InfoPacienteDialog extends JDialog
         /**
          * Cuando se abre este JDialog, se recuperan los datos del paciente en cuestión (sus ánimos y hábitos) de la bbdd
          */
+
         this.addWindowListener(new WindowAdapter()
         {
             public void windowOpened(WindowEvent e)
             {
                 Client client = new Client();
                 HashMap<String,Object> session=new HashMap<String, Object>();
+                session = new HashMap();
                 session.put("id",idPaciente);
 
                 //Recuperación de ánimos
@@ -76,14 +79,14 @@ public class InfoPacienteDialog extends JDialog
                     if (habito != null)
                     {
                         System.out.println(habito);
-                        session=new HashMap<String, Object>();
-
-                        session.put("id",idPaciente);
-                        session.put("habito",habito);
-                        session.put("ventana",ventanaOwner);
+                        Client client2 = new Client();
+                        HashMap<String,Object> session2=new HashMap<String, Object>();
+                        session2.put("id",idPaciente);
+                        session2.put("habito",habito);
+                        session2.put("ventana",ventanaOwner);
                         HashSet<MonthPanel> respuestaHSetHabitos = new HashSet<MonthPanel>();
-                        client.metodoClient("/recuperacionHabito",session);
-                        respuestaHSetHabitos = (HashSet<MonthPanel>) session.get("RespuestaRecHabitos");
+                        client2.metodoClient("/recuperacionHabito",session2);
+                        respuestaHSetHabitos = (HashSet<MonthPanel>) session2.get("RespuestaRecHabitos");
                         for (MonthPanel mes : respuestaHSetHabitos)
                         {
                             JTextArea txtSeguimiento = new JTextArea(mes.toString());
@@ -93,7 +96,6 @@ public class InfoPacienteDialog extends JDialog
                         }
                     }
                 }
-                //
             }
         });
 

@@ -126,7 +126,7 @@ public class MonthPanel extends JPanel implements Serializable
         int numero = 0;
         for (DayPanel day : MonthPanel.this.getDayArray())
         {
-            if (day != null && day.isColoreado() && day.getAsociacion().equals(asociacion))
+            if (day != null && day.isColoreado() && (day.getAsociacion().equals(asociacion)))
             {
                 numero ++;
             }

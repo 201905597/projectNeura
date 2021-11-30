@@ -1,6 +1,9 @@
 package main.java.neuraHealthUI.dominio;
 
+import javax.lang.model.type.ArrayType;
+import javax.sql.rowset.serial.SerialArray;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Psicologo implements Serializable

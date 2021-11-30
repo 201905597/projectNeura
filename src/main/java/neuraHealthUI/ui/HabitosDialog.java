@@ -23,7 +23,10 @@ public class HabitosDialog extends JDialog
     public HabitosDialog(JVentana ventanaOwner, boolean modal, String idConectado)
     {
         this.setModal(modal);
+
         this.setTitle("MIS HÁBITOS");
+
+
         this.idConectado = idConectado;
         this.ventanaOwner = ventanaOwner;
         this.botonesHabitos = new ArrayList<JButton>();
@@ -33,7 +36,7 @@ public class HabitosDialog extends JDialog
 
         //NORTE
         JLabel lblMisHabitos = new JLabel("MIS HÁBITOS",SwingConstants.CENTER);
-        lblMisHabitos.setPreferredSize(new Dimension(50,70));
+        lblMisHabitos.setPreferredSize(new Dimension(50, 70));
         lblMisHabitos.setForeground(Color.GREEN.darker());
         this.add(lblMisHabitos, BorderLayout.NORTH);
 
@@ -128,7 +131,6 @@ public class HabitosDialog extends JDialog
     public void addNuevoHabito(String nombreHabito)
     {
         JButton btnNuevo = new JButton(nombreHabito);
-        habitos.add(nombreHabito);
         botonesHabitos.add(btnNuevo);
         pnlCentro.add(btnNuevo);
         pnlCentro.updateUI();

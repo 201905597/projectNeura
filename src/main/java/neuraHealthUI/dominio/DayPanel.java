@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 public class DayPanel extends JPanel
 {
@@ -118,3 +119,13 @@ public class DayPanel extends JPanel
         return btnDia;
     }
 }
+
+
+
+
+
+
+
+
+
+
